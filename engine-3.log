@@ -1,35 +1,30 @@
-26:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
-39:--   Package 'libsystemd', required by 'virtual:world', not found
-101:-- Performing Test COMPILER_SUPPORTS_AVX2 - Failed
-103:-- Performing Test COMPILER_SUPPORTS_FMA - Failed
-111:-- Documentation generation disabled (doxygen not found)
-176:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:172:35: error: call to consteval function 'fmt::basic_format_string<char, const char *>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-177:  172 |     FMT_THROW(system_error(errno, FMT_STRING("cannot open file {}"),
-214:  172 |     FMT_THROW(system_error(errno, FMT_STRING("cannot open file {}"),
-228:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:211:29: error: call to consteval function 'fmt::basic_format_string<char, const char *>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-229:  211 |         system_error(errno, FMT_STRING("cannot open file {}"), path.c_str()));
-266:  211 |         system_error(errno, FMT_STRING("cannot open file {}"), path.c_str()));
-281:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:280:16: error: call to consteval function 'fmt::basic_format_string<char, int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-283:t/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.he: 61f:i19le:  derror: ecall to consteval function 'fmt::basic_format_string<char, fmt::basic_string_view<char> &, const char (&)[3]>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expressions
-398:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:62:17: error: call to consteval function 'fmt::basic_format_string<char, const char (&)[7], int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-399:   62 |   format_to(it, FMT_STRING("{}{}"), ERROR_STR, error_code);
-434:   62 |   format_to(it, FMT_STRING("{}{}"), ERROR_STR, error_code);
-464:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:289:16: error: call to consteval function 'fmt::basic_format_string<char, int &, int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-500:  288 |     FMT_THROW(system_error(
-516:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1376:30: error: call to consteval function 'fmt::basic_format_string<char, unsigned int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-580:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1380:28: error: call to consteval function 'fmt::basic_format_string<char, unsigned int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-644:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1383:28: error: call to consteval function 'fmt::basic_format_string<char, int>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
-710:1 warning and 4 errors generated.
-711:make[4]: *** [external/oxen-logging/fmt/CMakeFiles/fmt.dir/build.make:93: external/oxen-logging/fmt/CMakeFiles/fmt.dir/src/os.cc.o] Error 1
-731:1 warning and 5 errors generated.
-732:make[4]: *** [external/oxen-logging/fmt/CMakeFiles/fmt.dir/build.make:79: external/oxen-logging/fmt/CMakeFiles/fmt.dir/src/format.cc.o] Error 1
-734:make[3]: *** [CMakeFiles/Makefile2:835: external/oxen-logging/fmt/CMakeFiles/fmt.dir/all] Error 2
-843:checking for /usr/local/lib/android/sdk/ndk/30.0.16248370/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... yes
-844:checking for /usr/local/lib/android/sdk/ndk/30.0.16248370/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang option to accept ISO C89... -Werror
-10026:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
-10028:make[1]: *** [Makefile:527: lokinet-android] Error 2
-10030:make: *** [Makefile:4: arm64-v8a] Error 2
+188:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+226:--   Package 'libsystemd', required by 'virtual:world', not found
+723:-- Documentation generation disabled (doxygen not found)
+1041:checking for /usr/local/lib/android/sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... -Werror
+3628:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:32:2: error: "This compiler and/or stdlib does not support <source_location>"
+3629:#error "This compiler and/or stdlib does not support <source_location>"
+3631:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:57:31: error: unknown type name 'source_location'
+3659:2 errors generated.
+3660:make[4]: *** [external/oxen-logging/CMakeFiles/oxen-logging.dir/build.make:79: external/oxen-logging/CMakeFiles/oxen-logging.dir/src/catlogger.cpp.o] Error 1
+3680:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:32:2: error: "This compiler and/or stdlib does not support <source_location>"
+3681:#error "This compiler and/or stdlib does not support <source_location>"
+3683:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:57:31: error: unknown type name 'source_location'
+3694:2 errors generated.
+3695:make[4]: *** [external/oxen-logging/CMakeFiles/oxen-logging.dir/build.make:93: external/oxen-logging/CMakeFiles/oxen-logging.dir/src/level.cpp.o] Error 1
+3697:make[3]: *** [CMakeFiles/Makefile2:803: external/oxen-logging/CMakeFiles/oxen-logging.dir/all] Error 2
+11180:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+11182:make[1]: *** [Makefile:527: lokinet-android] Error 2
+11184:make: *** [Makefile:4: arm64-v8a] Error 2
 =================== tail
+install ./include/openssl/cryptoerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr.h
+install ./include/openssl/cryptoerr_legacy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr_legacy.h
+install ./include/openssl/ct.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ct.h
+install ./include/openssl/cterr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cterr.h
+install ./include/openssl/decoder.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/decoder.h
+install ./include/openssl/decodererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/decodererr.h
+install ./include/openssl/des.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/des.h
+install ./include/openssl/dh.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dh.h
 install ./include/openssl/dherr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dherr.h
 install ./include/openssl/dsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsa.h
 install ./include/openssl/dsaerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsaerr.h
@@ -38,11 +33,7 @@ install ./include/openssl/e_os2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet
 install ./include/openssl/ebcdic.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ebcdic.h
 install ./include/openssl/ec.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ec.h
 install ./include/openssl/ecdh.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdh.h
-created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/engines-3'
-created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/ossl-modules'
-*** Installing modules
 install ./include/openssl/ecdsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdsa.h
-*** Installing engines
 install ./include/openssl/ecerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecerr.h
 install ./include/openssl/encoder.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encoder.h
 install ./include/openssl/encodererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encodererr.h
@@ -67,14 +58,10 @@ install ./include/openssl/md2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/b
 install ./include/openssl/md4.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md4.h
 install ./include/openssl/md5.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md5.h
 install ./include/openssl/mdc2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/mdc2.h
-created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin'
 install ./include/openssl/modes.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/modes.h
-*** Installing runtime programs
-install apps/openssl -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin/openssl
 install ./include/openssl/obj_mac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/obj_mac.h
 install ./include/openssl/objects.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objects.h
 install ./include/openssl/objectserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objectserr.h
-install tools/c_rehash -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin/c_rehash
 install ./include/openssl/ocsp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsp.h
 install ./include/openssl/ocsperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsperr.h
 install ./include/openssl/opensslconf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/opensslconf.h
@@ -270,9 +257,9 @@ install libcrypto.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-androi
 install libssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/libssl.pc
 install openssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/openssl.pc
 make[5]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/openssl_external'
-[ 10%] Completed 'openssl_external'
+[ 26%] Completed 'openssl_external'
 make[4]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
-[ 10%] Built target openssl_external
+[ 26%] Built target openssl_external
 make[3]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
 make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
 make[2]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
