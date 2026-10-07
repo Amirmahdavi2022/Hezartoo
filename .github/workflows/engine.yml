@@ -28,9 +28,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Tools
+        timeout-minutes: 8
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq autoconf automake libtool pkg-config gettext autopoint ninja-build python3 > /dev/null
+          # usually preinstalled on the runner; apt only if something is missing (it hung once)
+          missing=""
+          for t in autoconf automake libtoolize pkg-config autopoint; do command -v $t >/dev/null || missing="$missing $t"; done
+          echo "missing:${missing:- none}"
+          if [ -n "$missing" ]; then
+            timeout 300 sudo apt-get install -y -qq --no-install-recommends autoconf automake libtool pkg-config autopoint gettext > /dev/null
+          fi
           cmake --version | head -1
 
       - name: Get Lokinet ${{ env.LOKINET_TAG }}
