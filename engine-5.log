@@ -1,0 +1,276 @@
+272:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+324:--   Package 'libsystemd', required by 'virtual:world', not found
+1010:-- Performing Test COMPILER_SUPPORTS_AVX2 - Failed
+1051:-- Performing Test COMPILER_SUPPORTS_FMA - Failed
+1059:-- Documentation generation disabled (doxygen not found)
+1364:checking for /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... yes
+1365:checking whether C compiler accepts -O2 -pthread -fvisibility=hidden -fPIC -fPIE -fno-strict-aliasing -fno-strict-overflow -fstack-protector -Wextra -Wno-unknown-warning-option -Wbad-function-cast -Wcast-qual -Wdiv-by-zero -Wduplicated-branches -Wduplicated-cond -Wfloat-equal -Wformat=2 -Wlogical-op -Wmaybe-uninitialized -Wmisleading-indentation -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wno-type-limits -Wno-unknown-pragmas -Wnormalized=id -Wnull-dereference -Wold-style-declaration -Wpointer-arith -Wredundant-decls -Wrestrict -Wshorten-64-to-32 -Wsometimes-uninitialized -Wstrict-prototypes... -Werror
+8552:checking for perror... 1 warning generated.
+9420:running CONFIG_SHELL=/bin/bash /bin/bash ./configure --host=aarch64-linux-android --prefix=/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps --enable-static --disable-shared --disable-curve-keygen --enable-curve --disable-drafts --disable-libunwind --with-libsodium --without-pgm --without-norm --without-vmci --without-docs --with-pic --disable-Werror --disable-libbsd CC=/usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang CXX=/usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang++ CFLAGS=-O2 -fstack-protector CXXFLAGS=-O2 -fstack-protector sodium_CFLAGS=-I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include sodium_LIBS=-L/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib -lsodium host_alias=aarch64-linux-android --no-create --no-recursion
+10611:checking for perror... 1 warning generated.
+12332:checking whether /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang supports -Werror... yes
+12510:checking if compiler needs -Werror to reject unknown flags... yes
+12783:util/configparser.h:49:2: error: unterminated conditional directive
+12786:util/configparser.h:38:2: error: unterminated conditional directive
+12789:util/configparser.c:125:1: error: expected expression
+12792:util/configparser.y:3781:2: error: expected '}' or ','
+12795:util/configparser.y:3781:2: error: expected '}'
+12799:util/configparser.y:3781:2: error: expected ';' after enum
+12803:6 errors generated.
+12804:make[5]: *** [Makefile:318: configparser.lo] Error 1
+12810:make[4]: *** [CMakeFiles/unbound_external.dir/build.make:86: static-deps-sources/src/unbound_external-stamp/unbound_external-build] Error 2
+12812:make[3]: *** [CMakeFiles/Makefile2:608: CMakeFiles/unbound_external.dir/all] Error 2
+12913:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+12915:make[1]: *** [Makefile:527: lokinet-android] Error 2
+12917:make: *** [Makefile:4: arm64-v8a] Error 2
+=================== tail
+checking for glob... no
+checking for initgroups... yes
+checking for strftime... yes
+checking for localtime_r... yes
+checking for setusercontext... no
+checking for _beginthreadex... no
+checking for endservent... yes
+checking for endprotoent... no
+checking for fsync... yes
+  CXX      src/libzmq_la-devpoll.lo
+checking for shmget...   CXX      src/libzmq_la-dgram.lo
+no
+checking for accept4...   CXX      src/libzmq_la-dish.lo
+yes
+checking for getifaddrs... no
+checking for if_nametoindex... yes
+checking for poll... yes
+checking for gettid... yes
+checking for setresuid... yes
+checking for setresgid... yes
+checking whether inet_pton is declared... yes
+checking whether inet_ntop is declared... yes
+checking for inet_aton... yes
+checking for inet_pton... yes
+checking for inet_ntop... yes
+checking for snprintf...   CXX      src/libzmq_la-dist.lo
+yes
+checking for strlcat... yes
+checking for strlcpy... yes
+checking for memmove...   CXX      src/libzmq_la-endpoint.lo
+yes
+checking for gmtime_r... yes
+checking for isblank... yes
+checking for explicit_bzero...   CXX      src/libzmq_la-epoll.lo
+no
+checking for reallocarray... no
+checking whether reallocarray is declared... no
+checking for arc4random... yes
+checking for arc4random_uniform... yes
+checking for ctime_r...   CXX      src/libzmq_la-err.lo
+yes
+checking for strsep... yes
+checking if make supports $< with implicit rule in scope... yes
+configure: Stripping extension flags...
+  CXX      src/libzmq_la-fq.lo
+configure: creating ./config.status
+  CXX      src/libzmq_la-gather.lo
+  CXX      src/libzmq_la-gssapi_mechanism_base.lo
+  CXX      src/libzmq_la-gssapi_client.lo
+config.status: creating Makefile
+config.status: creating doc/example.conf
+  CXX      src/libzmq_la-gssapi_server.lo
+config.status: creating doc/libunbound.3
+config.status: creating doc/unbound.8
+config.status: creating doc/unbound-anchor.8
+  CXX      src/libzmq_la-io_object.lo
+config.status: creating doc/unbound-checkconf.8
+config.status: creating doc/unbound.conf.5
+config.status: creating doc/unbound-control.8
+config.status: creating doc/unbound-host.1
+  CXX      src/libzmq_la-io_thread.lo
+config.status: creating smallapp/unbound-control-setup.sh
+config.status: creating dnstap/dnstap_config.h
+config.status: creating dnscrypt/dnscrypt_config.h
+config.status: creating contrib/libunbound.pc
+config.status: creating contrib/unbound.socket
+config.status: creating contrib/unbound.service
+config.status: creating contrib/unbound_portable.service
+config.status: creating config.h
+config.status: executing libtool commands
+  CXX      src/libzmq_la-ip.lo
+[ 44%] Performing build step for 'unbound_external'
+make[5]: Entering directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/unbound_external'
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/cache/dns.c  -fPIC -DPIC -o dns.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/cache/infra.c  -fPIC -DPIC -o infra.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/cache/rrset.c  -fPIC -DPIC -o rrset.o
+  CXX      src/libzmq_la-ip_resolver.lo
+  CXX      src/libzmq_la-ipc_address.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/data/dname.c  -fPIC -DPIC -o dname.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/data/msgencode.c  -fPIC -DPIC -o msgencode.o
+  CXX      src/libzmq_la-ipc_connecter.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/as112.c  -fPIC -DPIC -o as112.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/data/msgparse.c  -fPIC -DPIC -o msgparse.o
+  CXX      src/libzmq_la-ipc_listener.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/data/msgreply.c  -fPIC -DPIC -o msgreply.o
+  CXX      src/libzmq_la-kqueue.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/data/packed_rrset.c  -fPIC -DPIC -o packed_rrset.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iterator.c  -fPIC -DPIC -o iterator.o
+  CXX      src/libzmq_la-lb.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_delegpt.c  -fPIC -DPIC -o iter_delegpt.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_donotq.c  -fPIC -DPIC -o iter_donotq.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_fwd.c  -fPIC -DPIC -o iter_fwd.o
+  CXX      src/libzmq_la-mailbox.lo
+  CXX      src/libzmq_la-mailbox_safe.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_hints.c  -fPIC -DPIC -o iter_hints.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_priv.c  -fPIC -DPIC -o iter_priv.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_resptype.c  -fPIC -DPIC -o iter_resptype.o
+  CXX      src/libzmq_la-mechanism.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_scrub.c  -fPIC -DPIC -o iter_scrub.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c iterator/iter_utils.c  -fPIC -DPIC -o iter_utils.o
+  CXX      src/libzmq_la-mechanism_base.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/localzone.c  -fPIC -DPIC -o localzone.o
+  CXX      src/libzmq_la-metadata.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/mesh.c  -fPIC -DPIC -o mesh.o
+  CXX      src/libzmq_la-msg.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/modstack.c  -fPIC -DPIC -o modstack.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/view.c  -fPIC -DPIC -o view.o
+  CXX      src/libzmq_la-mtrie.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c services/outbound_list.c  -fPIC -DPIC -o outbound_list.o
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/alloc.c  -fPIC -DPIC -o alloc.o
+  CXX      src/libzmq_la-norm_engine.lo
+  CXX      src/libzmq_la-null_mechanism.lo
+libtool: compile:  /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang -I. -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -I/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include -DSRCDIR=. -O2 -c util/configparser.c  -fPIC -DPIC -o configparser.o
+In file included from util/configparser.c:123:
+util/configparser.h:49:2: error: unterminated conditional directive
+   49 | #ifndef YYTOKENTYPE
+      |  ^
+util/configparser.h:38:2: error: unterminated conditional directive
+   38 | #ifndef YY_YY_UTIL_CONFIGPARSER_H_INCLUDED
+      |  ^
+util/configparser.c:125:1: error: expected expression
+  125 | enum yysymbol_kind_t
+      | ^
+util/configparser.y:3781:2: error: expected '}' or ','
+ 3781 | }
+      |  ^
+util/configparser.y:3781:2: error: expected '}'
+util/configparser.h:52:3: note: to match this '{'
+   52 |   {
+      |   ^
+util/configparser.y:3781:2: error: expected ';' after enum
+ 3781 | }
+      |  ^
+      |  ;
+6 errors generated.
+make[5]: *** [Makefile:318: configparser.lo] Error 1
+make[5]: *** Waiting for unfinished jobs....
+  CXX      src/libzmq_la-object.lo
+  CXX      src/libzmq_la-options.lo
+  CXX      src/libzmq_la-own.lo
+make[5]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/unbound_external'
+make[4]: *** [CMakeFiles/unbound_external.dir/build.make:86: static-deps-sources/src/unbound_external-stamp/unbound_external-build] Error 2
+make[4]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make[3]: *** [CMakeFiles/Makefile2:608: CMakeFiles/unbound_external.dir/all] Error 2
+make[3]: *** Waiting for unfinished jobs....
+  CXX      src/libzmq_la-pair.lo
+  CXX      src/libzmq_la-peer.lo
+  CXX      src/libzmq_la-pgm_receiver.lo
+  CXX      src/libzmq_la-pgm_sender.lo
+  CXX      src/libzmq_la-pgm_socket.lo
+  CXX      src/libzmq_la-pipe.lo
+  CXX      src/libzmq_la-plain_client.lo
+  CXX      src/libzmq_la-plain_server.lo
+  CXX      src/libzmq_la-poll.lo
+  CXX      src/libzmq_la-poller_base.lo
+  CXX      src/libzmq_la-polling_util.lo
+  CXX      src/libzmq_la-pollset.lo
+  CXX      src/libzmq_la-precompiled.lo
+  CXX      src/libzmq_la-proxy.lo
+  CXX      src/libzmq_la-pub.lo
+  CXX      src/libzmq_la-pull.lo
+  CXX      src/libzmq_la-push.lo
+  CXX      src/libzmq_la-radio.lo
+  CXX      src/libzmq_la-radix_tree.lo
+  CXX      src/libzmq_la-random.lo
+  CXX      src/libzmq_la-raw_decoder.lo
+  CXX      src/libzmq_la-raw_encoder.lo
+  CXX      src/libzmq_la-raw_engine.lo
+  CXX      src/libzmq_la-reaper.lo
+  CXX      src/libzmq_la-rep.lo
+  CXX      src/libzmq_la-req.lo
+  CXX      src/libzmq_la-router.lo
+  CXX      src/libzmq_la-scatter.lo
+  CXX      src/libzmq_la-select.lo
+  CXX      src/libzmq_la-server.lo
+  CXX      src/libzmq_la-session_base.lo
+  CXX      src/libzmq_la-signaler.lo
+  CXX      src/libzmq_la-socket_base.lo
+  CXX      src/libzmq_la-socks.lo
+  CXX      src/libzmq_la-socks_connecter.lo
+  CXX      src/libzmq_la-stream.lo
+  CXX      src/libzmq_la-stream_connecter_base.lo
+  CXX      src/libzmq_la-stream_listener_base.lo
+  CXX      src/libzmq_la-stream_engine_base.lo
+  CXX      src/libzmq_la-sub.lo
+  CXX      src/libzmq_la-tcp.lo
+  CXX      src/libzmq_la-tcp_address.lo
+  CXX      src/libzmq_la-tcp_connecter.lo
+  CXX      src/libzmq_la-tcp_listener.lo
+  CXX      src/libzmq_la-thread.lo
+  CXX      src/libzmq_la-timers.lo
+  CXX      src/libzmq_la-tipc_address.lo
+  CXX      src/libzmq_la-tipc_connecter.lo
+  CXX      src/libzmq_la-tipc_listener.lo
+  CXX      src/libzmq_la-trie.lo
+  CXX      src/libzmq_la-udp_address.lo
+  CXX      src/libzmq_la-udp_engine.lo
+  CXX      src/libzmq_la-v1_decoder.lo
+  CXX      src/libzmq_la-v2_decoder.lo
+  CXX      src/libzmq_la-v1_encoder.lo
+  CXX      src/libzmq_la-v2_encoder.lo
+  CXX      src/libzmq_la-v3_1_encoder.lo
+  CXX      src/libzmq_la-vmci.lo
+  CXX      src/libzmq_la-vmci_address.lo
+  CXX      src/libzmq_la-vmci_connecter.lo
+  CXX      src/libzmq_la-vmci_listener.lo
+  CXX      src/libzmq_la-xpub.lo
+  CXX      src/libzmq_la-xsub.lo
+  CXX      src/libzmq_la-zmq.lo
+  CXX      src/libzmq_la-zmq_utils.lo
+  CXX      src/libzmq_la-decoder_allocators.lo
+  CXX      src/libzmq_la-socket_poller.lo
+  CXX      src/libzmq_la-zap_client.lo
+  CXX      src/libzmq_la-zmtp_engine.lo
+  CXX      perf/inproc_lat.o
+  CXX      perf/inproc_thr.o
+  CXX      perf/proxy_thr.o
+  CXXLD    src/libzmq.la
+  CXXLD    perf/local_lat
+  CXXLD    perf/remote_lat
+  CXXLD    perf/local_thr
+  CXXLD    perf/remote_thr
+  CXXLD    perf/inproc_lat
+  CXXLD    perf/inproc_thr
+  CXXLD    perf/proxy_thr
+  CXXLD    perf/benchmark_radix_tree
+make[7]: Entering directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/zmq_external'
+ /usr/bin/mkdir -p '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include'
+ /usr/bin/mkdir -p '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig'
+ /usr/bin/mkdir -p '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib'
+ /usr/bin/install -c -m 644 include/zmq.h include/zmq_utils.h '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include'
+ /usr/bin/install -c -m 644 src/libzmq.pc '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig'
+ /bin/bash ./libtool   --mode=install /usr/bin/install -c   src/libzmq.la '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib'
+libtool: install: /usr/bin/install -c src/.libs/libzmq.lai /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libzmq.la
+libtool: install: /usr/bin/install -c src/.libs/libzmq.a /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libzmq.a
+libtool: install: chmod 644 /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libzmq.a
+libtool: install: ranlib /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libzmq.a
+make[7]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/zmq_external'
+make[6]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/zmq_external'
+make[5]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/zmq_external'
+[ 44%] Completed 'zmq_external'
+make[4]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+[ 44%] Built target zmq_external
+make[3]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+make[2]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make[1]: *** [Makefile:527: lokinet-android] Error 2
+make[1]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make: *** [Makefile:4: arm64-v8a] Error 2
+make: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android'
