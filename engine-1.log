@@ -1,0 +1,282 @@
+26:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+39:--   Package 'libsystemd', required by 'virtual:world', not found
+101:-- Performing Test COMPILER_SUPPORTS_AVX2 - Failed
+103:-- Performing Test COMPILER_SUPPORTS_FMA - Failed
+111:-- Documentation generation disabled (doxygen not found)
+176:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:172:35: error: call to consteval function 'fmt::basic_format_string<char, const char *>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+177:  172 |     FMT_THROW(system_error(errno, FMT_STRING("cannot open file {}"),
+214:  172 |     FMT_THROW(system_error(errno, FMT_STRING("cannot open file {}"),
+228:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:211:29: error: call to consteval function 'fmt::basic_format_string<char, const char *>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+229:  211 |         system_error(errno, FMT_STRING("cannot open file {}"), path.c_str()));
+266:  211 |         system_error(errno, FMT_STRING("cannot open file {}"), path.c_str()));
+281:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:280:16: error: call to consteval function 'fmt::basic_format_string<char, int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+283:t/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.he: 61f:i19le:  derror: ecall to consteval function 'fmt::basic_format_string<char, fmt::basic_string_view<char> &, const char (&)[3]>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expressions
+398:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:62:17: error: call to consteval function 'fmt::basic_format_string<char, const char (&)[7], int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+399:   62 |   format_to(it, FMT_STRING("{}{}"), ERROR_STR, error_code);
+434:   62 |   format_to(it, FMT_STRING("{}{}"), ERROR_STR, error_code);
+464:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/src/os.cc:289:16: error: call to consteval function 'fmt::basic_format_string<char, int &, int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+500:  288 |     FMT_THROW(system_error(
+516:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1376:30: error: call to consteval function 'fmt::basic_format_string<char, unsigned int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+580:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1380:28: error: call to consteval function 'fmt::basic_format_string<char, unsigned int &>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+644:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/fmt/include/fmt/format-inl.h:1383:28: error: call to consteval function 'fmt::basic_format_string<char, int>::basic_format_string<FMT_COMPILE_STRING, 0>' is not a constant expression
+710:1 warning and 4 errors generated.
+711:make[4]: *** [external/oxen-logging/fmt/CMakeFiles/fmt.dir/build.make:93: external/oxen-logging/fmt/CMakeFiles/fmt.dir/src/os.cc.o] Error 1
+731:1 warning and 5 errors generated.
+732:make[4]: *** [external/oxen-logging/fmt/CMakeFiles/fmt.dir/build.make:79: external/oxen-logging/fmt/CMakeFiles/fmt.dir/src/format.cc.o] Error 1
+734:make[3]: *** [CMakeFiles/Makefile2:835: external/oxen-logging/fmt/CMakeFiles/fmt.dir/all] Error 2
+843:checking for /usr/local/lib/android/sdk/ndk/30.0.16248370/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... yes
+844:checking for /usr/local/lib/android/sdk/ndk/30.0.16248370/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang option to accept ISO C89... -Werror
+10026:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+10028:make[1]: *** [Makefile:527: lokinet-android] Error 2
+10030:make: *** [Makefile:4: arm64-v8a] Error 2
+=================== tail
+install ./include/openssl/dherr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dherr.h
+install ./include/openssl/dsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsa.h
+install ./include/openssl/dsaerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsaerr.h
+install ./include/openssl/dtls1.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dtls1.h
+install ./include/openssl/e_os2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/e_os2.h
+install ./include/openssl/ebcdic.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ebcdic.h
+install ./include/openssl/ec.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ec.h
+install ./include/openssl/ecdh.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdh.h
+created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/engines-3'
+created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/ossl-modules'
+*** Installing modules
+install ./include/openssl/ecdsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdsa.h
+*** Installing engines
+install ./include/openssl/ecerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecerr.h
+install ./include/openssl/encoder.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encoder.h
+install ./include/openssl/encodererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encodererr.h
+install ./include/openssl/engine.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/engine.h
+install ./include/openssl/engineerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/engineerr.h
+install ./include/openssl/err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/err.h
+install ./include/openssl/ess.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ess.h
+install ./include/openssl/esserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/esserr.h
+install ./include/openssl/evp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/evp.h
+install ./include/openssl/evperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/evperr.h
+install ./include/openssl/fips_names.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/fips_names.h
+install ./include/openssl/fipskey.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/fipskey.h
+install ./include/openssl/hmac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/hmac.h
+install ./include/openssl/http.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/http.h
+install ./include/openssl/httperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/httperr.h
+install ./include/openssl/idea.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/idea.h
+install ./include/openssl/kdf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/kdf.h
+install ./include/openssl/kdferr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/kdferr.h
+install ./include/openssl/lhash.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/lhash.h
+install ./include/openssl/macros.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/macros.h
+install ./include/openssl/md2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md2.h
+install ./include/openssl/md4.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md4.h
+install ./include/openssl/md5.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md5.h
+install ./include/openssl/mdc2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/mdc2.h
+created directory `/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin'
+install ./include/openssl/modes.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/modes.h
+*** Installing runtime programs
+install apps/openssl -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin/openssl
+install ./include/openssl/obj_mac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/obj_mac.h
+install ./include/openssl/objects.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objects.h
+install ./include/openssl/objectserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objectserr.h
+install tools/c_rehash -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/bin/c_rehash
+install ./include/openssl/ocsp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsp.h
+install ./include/openssl/ocsperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsperr.h
+install ./include/openssl/opensslconf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/opensslconf.h
+install ./include/openssl/opensslv.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/opensslv.h
+install ./include/openssl/ossl_typ.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ossl_typ.h
+install ./include/openssl/param_build.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/param_build.h
+install ./include/openssl/params.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/params.h
+install ./include/openssl/pem.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pem.h
+install ./include/openssl/pem2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pem2.h
+install ./include/openssl/pemerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pemerr.h
+install ./include/openssl/pkcs12.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs12.h
+install ./include/openssl/pkcs12err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs12err.h
+install ./include/openssl/pkcs7.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs7.h
+install ./include/openssl/pkcs7err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs7err.h
+install ./include/openssl/prov_ssl.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/prov_ssl.h
+install ./include/openssl/proverr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/proverr.h
+install ./include/openssl/provider.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/provider.h
+install ./include/openssl/rand.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rand.h
+install ./include/openssl/randerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/randerr.h
+install ./include/openssl/rc2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc2.h
+install ./include/openssl/rc4.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc4.h
+install ./include/openssl/rc5.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc5.h
+install ./include/openssl/ripemd.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ripemd.h
+install ./include/openssl/rsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rsa.h
+install ./include/openssl/rsaerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rsaerr.h
+install ./include/openssl/safestack.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/safestack.h
+install ./include/openssl/seed.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/seed.h
+install ./include/openssl/self_test.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/self_test.h
+install ./include/openssl/sha.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sha.h
+install ./include/openssl/srp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/srp.h
+install ./include/openssl/srtp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/srtp.h
+install ./include/openssl/ssl.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl.h
+install ./include/openssl/ssl2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl2.h
+install ./include/openssl/ssl3.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl3.h
+install ./include/openssl/sslerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sslerr.h
+install ./include/openssl/sslerr_legacy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sslerr_legacy.h
+install ./include/openssl/stack.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/stack.h
+install ./include/openssl/store.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/store.h
+install ./include/openssl/storeerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/storeerr.h
+install ./include/openssl/symhacks.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/symhacks.h
+install ./include/openssl/tls1.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/tls1.h
+install ./include/openssl/trace.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/trace.h
+install ./include/openssl/ts.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ts.h
+install ./include/openssl/tserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/tserr.h
+install ./include/openssl/txt_db.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/txt_db.h
+install ./include/openssl/types.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/types.h
+install ./include/openssl/ui.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ui.h
+install ./include/openssl/uierr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/uierr.h
+install ./include/openssl/whrlpool.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/whrlpool.h
+install ./include/openssl/x509.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509.h
+install ./include/openssl/x509_vfy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509_vfy.h
+install ./include/openssl/x509err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509err.h
+install ./include/openssl/x509v3.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509v3.h
+install ./include/openssl/x509v3err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509v3err.h
+install ./include/openssl/aes.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/aes.h
+install ./include/openssl/asn1.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/asn1.h
+install ./include/openssl/asn1_mac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/asn1_mac.h
+install ./include/openssl/asn1err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/asn1err.h
+install ./include/openssl/asn1t.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/asn1t.h
+install ./include/openssl/async.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/async.h
+install ./include/openssl/asyncerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/asyncerr.h
+install ./include/openssl/bio.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/bio.h
+install ./include/openssl/bioerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/bioerr.h
+install ./include/openssl/blowfish.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/blowfish.h
+install ./include/openssl/bn.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/bn.h
+install ./include/openssl/bnerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/bnerr.h
+install ./include/openssl/buffer.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/buffer.h
+install ./include/openssl/buffererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/buffererr.h
+install ./include/openssl/camellia.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/camellia.h
+install ./include/openssl/cast.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cast.h
+install ./include/openssl/cmac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cmac.h
+install ./include/openssl/cmp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cmp.h
+install ./include/openssl/cmp_util.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cmp_util.h
+install ./include/openssl/cmperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cmperr.h
+install ./include/openssl/cms.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cms.h
+install ./include/openssl/cmserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cmserr.h
+install ./include/openssl/comp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/comp.h
+install ./include/openssl/comperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/comperr.h
+install ./include/openssl/conf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/conf.h
+install ./include/openssl/conf_api.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/conf_api.h
+install ./include/openssl/conferr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/conferr.h
+install ./include/openssl/configuration.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/configuration.h
+install ./include/openssl/conftypes.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/conftypes.h
+install ./include/openssl/core.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/core.h
+install ./include/openssl/core_dispatch.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/core_dispatch.h
+install ./include/openssl/core_names.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/core_names.h
+install ./include/openssl/core_object.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/core_object.h
+install ./include/openssl/crmf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/crmf.h
+install ./include/openssl/crmferr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/crmferr.h
+install ./include/openssl/crypto.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/crypto.h
+install ./include/openssl/cryptoerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr.h
+install ./include/openssl/cryptoerr_legacy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr_legacy.h
+install ./include/openssl/ct.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ct.h
+install ./include/openssl/cterr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cterr.h
+install ./include/openssl/decoder.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/decoder.h
+install ./include/openssl/decodererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/decodererr.h
+install ./include/openssl/des.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/des.h
+install ./include/openssl/dh.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dh.h
+install ./include/openssl/dherr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dherr.h
+install ./include/openssl/dsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsa.h
+install ./include/openssl/dsaerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dsaerr.h
+install ./include/openssl/dtls1.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/dtls1.h
+install ./include/openssl/e_os2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/e_os2.h
+install ./include/openssl/ebcdic.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ebcdic.h
+install ./include/openssl/ec.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ec.h
+install ./include/openssl/ecdh.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdh.h
+install ./include/openssl/ecdsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecdsa.h
+install ./include/openssl/ecerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ecerr.h
+install ./include/openssl/encoder.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encoder.h
+install ./include/openssl/encodererr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/encodererr.h
+install ./include/openssl/engine.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/engine.h
+install ./include/openssl/engineerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/engineerr.h
+install ./include/openssl/err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/err.h
+install ./include/openssl/ess.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ess.h
+install ./include/openssl/esserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/esserr.h
+install ./include/openssl/evp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/evp.h
+install ./include/openssl/evperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/evperr.h
+install ./include/openssl/fips_names.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/fips_names.h
+install ./include/openssl/fipskey.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/fipskey.h
+install ./include/openssl/hmac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/hmac.h
+install ./include/openssl/http.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/http.h
+install ./include/openssl/httperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/httperr.h
+install ./include/openssl/idea.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/idea.h
+install ./include/openssl/kdf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/kdf.h
+install ./include/openssl/kdferr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/kdferr.h
+install ./include/openssl/lhash.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/lhash.h
+install ./include/openssl/macros.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/macros.h
+install ./include/openssl/md2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md2.h
+install ./include/openssl/md4.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md4.h
+install ./include/openssl/md5.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/md5.h
+install ./include/openssl/mdc2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/mdc2.h
+install ./include/openssl/modes.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/modes.h
+install ./include/openssl/obj_mac.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/obj_mac.h
+install ./include/openssl/objects.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objects.h
+install ./include/openssl/objectserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/objectserr.h
+install ./include/openssl/ocsp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsp.h
+install ./include/openssl/ocsperr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ocsperr.h
+install ./include/openssl/opensslconf.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/opensslconf.h
+install ./include/openssl/opensslv.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/opensslv.h
+install ./include/openssl/ossl_typ.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ossl_typ.h
+install ./include/openssl/param_build.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/param_build.h
+install ./include/openssl/params.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/params.h
+install ./include/openssl/pem.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pem.h
+install ./include/openssl/pem2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pem2.h
+install ./include/openssl/pemerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pemerr.h
+install ./include/openssl/pkcs12.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs12.h
+install ./include/openssl/pkcs12err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs12err.h
+install ./include/openssl/pkcs7.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs7.h
+install ./include/openssl/pkcs7err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/pkcs7err.h
+install ./include/openssl/prov_ssl.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/prov_ssl.h
+install ./include/openssl/proverr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/proverr.h
+install ./include/openssl/provider.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/provider.h
+install ./include/openssl/rand.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rand.h
+install ./include/openssl/randerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/randerr.h
+install ./include/openssl/rc2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc2.h
+install ./include/openssl/rc4.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc4.h
+install ./include/openssl/rc5.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rc5.h
+install ./include/openssl/ripemd.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ripemd.h
+install ./include/openssl/rsa.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rsa.h
+install ./include/openssl/rsaerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/rsaerr.h
+install ./include/openssl/safestack.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/safestack.h
+install ./include/openssl/seed.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/seed.h
+install ./include/openssl/self_test.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/self_test.h
+install ./include/openssl/sha.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sha.h
+install ./include/openssl/srp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/srp.h
+install ./include/openssl/srtp.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/srtp.h
+install ./include/openssl/ssl.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl.h
+install ./include/openssl/ssl2.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl2.h
+install ./include/openssl/ssl3.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ssl3.h
+install ./include/openssl/sslerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sslerr.h
+install ./include/openssl/sslerr_legacy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/sslerr_legacy.h
+install ./include/openssl/stack.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/stack.h
+install ./include/openssl/store.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/store.h
+install ./include/openssl/storeerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/storeerr.h
+install ./include/openssl/symhacks.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/symhacks.h
+install ./include/openssl/tls1.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/tls1.h
+install ./include/openssl/trace.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/trace.h
+install ./include/openssl/ts.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ts.h
+install ./include/openssl/tserr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/tserr.h
+install ./include/openssl/txt_db.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/txt_db.h
+install ./include/openssl/types.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/types.h
+install ./include/openssl/ui.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/ui.h
+install ./include/openssl/uierr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/uierr.h
+install ./include/openssl/whrlpool.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/whrlpool.h
+install ./include/openssl/x509.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509.h
+install ./include/openssl/x509_vfy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509_vfy.h
+install ./include/openssl/x509err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509err.h
+install ./include/openssl/x509v3.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509v3.h
+install ./include/openssl/x509v3err.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/x509v3err.h
+install libcrypto.a -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libcrypto.a
+install libssl.a -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/libssl.a
+install libcrypto.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/libcrypto.pc
+install libssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/libssl.pc
+install openssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/openssl.pc
+make[5]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/openssl_external'
+[ 10%] Completed 'openssl_external'
+make[4]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+[ 10%] Built target openssl_external
+make[3]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+make[2]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make[1]: *** [Makefile:527: lokinet-android] Error 2
+make[1]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
+make: *** [Makefile:4: arm64-v8a] Error 2
+make: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android'
