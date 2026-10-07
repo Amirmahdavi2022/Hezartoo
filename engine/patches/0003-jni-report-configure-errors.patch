@@ -1,0 +1,22 @@
+diff --git a/jni/lokinet_daemon.cpp b/jni/lokinet_daemon.cpp
+index 8bd90f5..f4a5e64 100644
+--- a/jni/lokinet_daemon.cpp
++++ b/jni/lokinet_daemon.cpp
+@@ -37,8 +37,17 @@ extern "C"
+       ptr->Configure(std::make_shared<llarp::Config>(*config));
+       ptr->Setup(opts);
+     }
++    catch (const std::exception& e)
++    {
++      // hand the real reason to Java instead of a bare "false"
++      if (jclass ex = env->FindClass("java/lang/RuntimeException"))
++        env->ThrowNew(ex, e.what());
++      return JNI_FALSE;
++    }
+     catch (...)
+     {
++      if (jclass ex = env->FindClass("java/lang/RuntimeException"))
++        env->ThrowNew(ex, "unknown native exception in Configure");
+       return JNI_FALSE;
+     }
+     return JNI_TRUE;

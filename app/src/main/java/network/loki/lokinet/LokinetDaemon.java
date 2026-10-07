@@ -99,6 +99,9 @@ public class LokinetDaemon extends VpnService {
             config.AddDefaultValue("logging", "type", "file");
             config.AddDefaultValue("logging", "file", log.toString());
             config.AddDefaultValue("logging", "level", "info");
+            // no local JSON API on a phone, and apps can't bind port 53
+            config.AddDefaultValue("api", "enabled", "false");
+            config.AddDefaultValue("dns", "bind", "127.0.0.1:1053");
             if (!config.Load()) { fail("config: could not create lokinet.ini"); return; }
 
             Builder b = new Builder();
@@ -113,7 +116,12 @@ public class LokinetDaemon extends VpnService {
             InjectVPNFD();
 
             state = "configuring";
-            if (!Configure(config)) { fail("engine: Configure failed, see log"); return; }
+            try {
+                if (!Configure(config)) { fail("engine: Configure failed, see log"); return; }
+            } catch (RuntimeException e) {
+                fail("engine: " + e.getMessage());
+                return;
+            }
             m_UDPSocket = GetUDPSocket();
             if (m_UDPSocket < 0 || !protect(m_UDPSocket)) {
                 fail("engine: could not protect UDP socket (" + m_UDPSocket + ")");
