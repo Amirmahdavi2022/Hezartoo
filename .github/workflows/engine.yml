@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 env:
   LOKINET_TAG: v0.9.15
@@ -98,6 +99,11 @@ jobs:
             --title "Engine $ENGINE_TAG" \
             --notes "Lokinet $LOKINET_TAG + engine/patches. Used by the app build." \
             --prerelease
+
+      - name: Build the app on the new engine
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build.yml --ref main -f release=true
 
       - name: Save failure log
         if: failure()
