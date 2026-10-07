@@ -1,21 +1,18 @@
-188:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
-226:--   Package 'libsystemd', required by 'virtual:world', not found
-723:-- Documentation generation disabled (doxygen not found)
-1041:checking for /usr/local/lib/android/sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... -Werror
-3628:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:32:2: error: "This compiler and/or stdlib does not support <source_location>"
-3629:#error "This compiler and/or stdlib does not support <source_location>"
-3631:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:57:31: error: unknown type name 'source_location'
-3659:2 errors generated.
-3660:make[4]: *** [external/oxen-logging/CMakeFiles/oxen-logging.dir/build.make:79: external/oxen-logging/CMakeFiles/oxen-logging.dir/src/catlogger.cpp.o] Error 1
-3680:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:32:2: error: "This compiler and/or stdlib does not support <source_location>"
-3681:#error "This compiler and/or stdlib does not support <source_location>"
-3683:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/include/oxen/log/internal.hpp:57:31: error: unknown type name 'source_location'
-3694:2 errors generated.
-3695:make[4]: *** [external/oxen-logging/CMakeFiles/oxen-logging.dir/build.make:93: external/oxen-logging/CMakeFiles/oxen-logging.dir/src/level.cpp.o] Error 1
-3697:make[3]: *** [CMakeFiles/Makefile2:803: external/oxen-logging/CMakeFiles/oxen-logging.dir/all] Error 2
-11180:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
-11182:make[1]: *** [Makefile:527: lokinet-android] Error 2
-11184:make: *** [Makefile:4: arm64-v8a] Error 2
+272:-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+324:--   Package 'libsystemd', required by 'virtual:world', not found
+1010:-- Performing Test COMPILER_SUPPORTS_AVX2 - Failed
+1051:-- Performing Test COMPILER_SUPPORTS_FMA - Failed
+1059:-- Documentation generation disabled (doxygen not found)
+1292:checking for /usr/local/lib/android/sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang way to treat warnings as errors... -Werror
+8014:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/src/log.cpp:39:17: error: constexpr variable cannot have non-literal type 'const fmt::format_string<std::chrono::hours::rep, std::chrono::minutes::rep, std::chrono::seconds::rep, std::chrono::milliseconds::rep>' (aka 'const basic_format_string<char, long, long, long long, long long>')
+8020:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/src/log.cpp:40:17: error: constexpr variable cannot have non-literal type 'const fmt::format_string<std::chrono::hours::rep, std::chrono::minutes::rep, std::chrono::seconds::rep, std::chrono::milliseconds::rep>' (aka 'const basic_format_string<char, long, long, long long, long long>')
+8026:/home/runner/work/Hezartoo/Hezartoo/lokinet/external/oxen-logging/src/log.cpp:41:17: error: constexpr variable cannot have non-literal type 'const fmt::format_string<std::chrono::hours::rep, std::chrono::minutes::rep, std::chrono::seconds::rep, std::chrono::milliseconds::rep>' (aka 'const basic_format_string<char, long, long, long long, long long>')
+8055:3 errors generated.
+8056:make[4]: *** [external/oxen-logging/CMakeFiles/oxen-logging.dir/build.make:107: external/oxen-logging/CMakeFiles/oxen-logging.dir/src/log.cpp.o] Error 1
+8111:make[3]: *** [CMakeFiles/Makefile2:803: external/oxen-logging/CMakeFiles/oxen-logging.dir/all] Error 2
+11519:make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
+11521:make[1]: *** [Makefile:527: lokinet-android] Error 2
+11523:make: *** [Makefile:4: arm64-v8a] Error 2
 =================== tail
 install ./include/openssl/cryptoerr.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr.h
 install ./include/openssl/cryptoerr_legacy.h -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/include/openssl/cryptoerr_legacy.h
@@ -257,9 +254,9 @@ install libcrypto.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-androi
 install libssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/libssl.pc
 install openssl.pc -> /home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps/lib/pkgconfig/openssl.pc
 make[5]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a/static-deps-sources/src/openssl_external'
-[ 26%] Completed 'openssl_external'
+[ 27%] Completed 'openssl_external'
 make[4]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
-[ 26%] Built target openssl_external
+[ 27%] Built target openssl_external
 make[3]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
 make[2]: *** [CMakeFiles/Makefile2:1403: jni/CMakeFiles/lokinet-android.dir/rule] Error 2
 make[2]: Leaving directory '/home/runner/work/Hezartoo/Hezartoo/lokinet/build-android/build-arm64-v8a'
