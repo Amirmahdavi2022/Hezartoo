@@ -19,6 +19,12 @@ import javax.net.ssl.HttpsURLConnection
 class I2pEngine(private val ctx: Context) {
 
     val dataDir = File(ctx.filesDir, "i2pd")
+    /** Set by prepare() when this start reseeds from the bundled file. */
+    var seedFile: File? = null
+        private set
+    /** Routers already saved from earlier runs; few means a first (slow) start. */
+    var knownRouters = 0
+        private set
     private val logFile = File(dataDir, "i2pd.log")
 
     /** Copies the reseed certificates and writes our config. Safe to call every start. */
@@ -37,6 +43,26 @@ class I2pEngine(private val ctx: Context) {
         }
         val certs = File(dataDir, "certificates/reseed").listFiles()?.size ?: 0
         Status.log("engine data: reseed certs=$certs, netDb=${File(dataDir, "netDb").exists()}")
+
+        // First start (or a netDb too small to use): reseed from the bundle shipped in the
+        // APK instead of reseed servers. Only once: if that didn't get us going, the next
+        // start falls back to the servers.
+        val known = File(dataDir, "netDb").walkTopDown().count { it.isFile && it.name.endsWith(".dat") }
+        knownRouters = known
+        val tries = File(dataDir, "seed.tries")
+        val usedBefore = tries.exists()
+        seedFile = null
+        if (known < 25 && !usedBefore) {
+            val f = File(dataDir, "seed.su3")
+            try {
+                ctx.assets.open("i2pd/seed.su3").use { inp -> f.outputStream().use { inp.copyTo(it) } }
+                seedFile = f
+                tries.writeText("1")
+            } catch (t: Throwable) {
+                Status.log("no bundled seed: ${t.message}")
+            }
+        }
+        Status.log("netDb routers on disk: $known, reseed from ${if (seedFile != null) "bundle" else "servers (if needed)"}")
 
         File(dataDir, "i2pd.conf").writeText(config())
         File(dataDir, "tunnels.conf").writeText("# no extra tunnels\n")
@@ -166,6 +192,7 @@ class I2pEngine(private val ctx: Context) {
 
         [reseed]
         verify = true
+        ${seedFile?.let { "file = " + it.absolutePath } ?: ""}
 
         [limits]
         transittunnels = 50

@@ -84,6 +84,18 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
             if (cmd != 1) { reply(cout, 7); return }            // only CONNECT, no UDP
 
             val target = "$host:$port"
+            // Addresses the exit can never reach (local ranges, Iran's block-page sinkhole,
+            // stale fake-DNS answers cached from another VPN): fail at once so the app
+            // looks the name up again instead of waiting on I2P for a sure "no".
+            if (unreachable(host)) {
+                if (skipped.incrementAndGet() <= 10) Status.log("skip $target (unreachable address)")
+                reply(cout, 4)
+                return
+            }
+            // the exit refused this port before; don't spend an I2P stream asking again
+            if (port in refusedPorts) { reply(cout, 2); return }
+            // plain HTTP: the exit only allows CONNECT to 443, so send it as a normal proxy request
+            if (port == 80) { httpForward(client, cin, cout, host); return }
             val up = Socket()
             upstream = up
             up.tcpNoDelay = true
@@ -102,6 +114,10 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
             if (status !in 200..299) {
                 failed.incrementAndGet()
                 noteFailure(target, port, status)
+                // 403 = the exit's port policy, not a one-off; remember it (443 is never given up)
+                if (status == 403 && port != 443 && refusedPorts.add(port)) {
+                    Status.log("exit refuses port $port; failing it fast from now on")
+                }
                 reply(cout, 5)
                 return
             }
@@ -126,6 +142,90 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
             try { client.close() } catch (_: Throwable) {}
             try { upstream?.close() } catch (_: Throwable) {}
         }
+    }
+
+    /**
+     * Port 80: read the client's request head, rewrite it for a forward proxy
+     * (absolute URL, one request per connection) and hand it to i2pd's proxy,
+     * which passes it to the exit as an ordinary HTTP request.
+     */
+    private fun httpForward(client: Socket, cin: InputStream, cout: OutputStream, host: String) {
+        reply(cout, 0) // the client only sends its request after this
+        val buf = ByteArray(HEAD_LIMIT)
+        var len = 0
+        var end = -1
+        while (end < 0) {
+            if (len == buf.size) return // absurd header, drop it
+            val n = cin.read(buf, len, buf.size - len)
+            if (n < 0) return
+            len += n
+            end = indexOfHeadEnd(buf, len)
+        }
+        val head = String(buf, 0, end, Charsets.ISO_8859_1)
+        val lines = head.split("\r\n")
+        val parts = lines.first().split(' ')
+        if (parts.size < 3) return
+        val hostHeader = lines.drop(1).firstOrNull { it.startsWith("host:", ignoreCase = true) }
+            ?.substringAfter(':')?.trim()?.takeIf { it.isNotEmpty() } ?: host
+        val uri = if (parts[1].startsWith("/")) "http://$hostHeader${parts[1]}" else parts[1]
+        val sb = StringBuilder("${parts[0]} $uri ${parts[2]}\r\n")
+        for (l in lines.drop(1)) {
+            if (l.isEmpty()) continue
+            val name = l.substringBefore(':').trim().lowercase()
+            if (name == "connection" || name == "proxy-connection" || name == "keep-alive") continue
+            sb.append(l).append("\r\n")
+        }
+        sb.append("Connection: close\r\n\r\n")
+
+        val up = Socket()
+        try {
+            up.tcpNoDelay = true
+            up.connect(InetSocketAddress(engineHost, enginePort), 5_000)
+            val uout = up.getOutputStream()
+            uout.write(sb.toString().toByteArray(Charsets.ISO_8859_1))
+            // body bytes that arrived together with the head
+            val rest = end + 4
+            if (len > rest) uout.write(buf, rest, len - rest)
+            uout.flush()
+            opened.incrementAndGet()
+            client.soTimeout = 0
+            active.incrementAndGet()
+            try {
+                val t = Thread({ pipe(cin, uout, bytesUp, up, client) }, "bridge-up")
+                t.isDaemon = true
+                t.start()
+                pipe(up.getInputStream(), cout, bytesDown, client, up)
+                t.join(2_000)
+            } finally {
+                active.decrementAndGet()
+            }
+        } finally {
+            try { up.close() } catch (_: Throwable) {}
+        }
+    }
+
+    private fun indexOfHeadEnd(b: ByteArray, len: Int): Int {
+        for (i in 0..len - 4) {
+            if (b[i] == 13.toByte() && b[i + 1] == 10.toByte() && b[i + 2] == 13.toByte() && b[i + 3] == 10.toByte()) return i
+        }
+        return -1
+    }
+
+    private fun unreachable(host: String): Boolean {
+        if (host.startsWith("[")) {
+            val h = host.lowercase()
+            return h.startsWith("[2001:4188:2:600:10:10:34:") || h == "[::1]" ||
+                h.startsWith("[fc") || h.startsWith("[fd") || h.startsWith("[fe80:")
+        }
+        val o = host.split('.')
+        if (o.size != 4) return false // a name, not an address
+        val a = o[0].toIntOrNull() ?: return false
+        val b = o[1].toIntOrNull() ?: return false
+        return a == 10 || a == 127 || a == 0 ||
+            (a == 192 && b == 168) ||
+            (a == 172 && b in 16..31) ||
+            (a == 169 && b == 254) ||
+            (a == 198 && (b == 18 || b == 19)) // benchmark range: only ever fake-DNS answers
     }
 
     private fun pipe(src: InputStream, dst: OutputStream, counter: AtomicLong, a: Socket, b: Socket) {
@@ -180,6 +280,9 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
         return b
     }
 
+    private val refusedPorts: MutableSet<Int> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+    val skipped = AtomicLong(0)
+
     /** Per-port failure counts, so the report shows which kinds of traffic the exit refuses. */
     private val failedByPort = java.util.concurrent.ConcurrentHashMap<Int, AtomicInteger>()
     private val loggedFailures = AtomicInteger(0)
@@ -188,6 +291,10 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
         failedByPort.getOrPut(port) { AtomicInteger(0) }.incrementAndGet()
         // log the first few in full, then stay quiet
         if (loggedFailures.incrementAndGet() <= 40) Status.log("tunnel $target -> proxy said $status")
+    }
+
+    companion object {
+        private const val HEAD_LIMIT = 64 * 1024
     }
 
     fun failureSummary(): String =

@@ -85,8 +85,9 @@ class HezartooVpnService : VpnService() {
         val t0 = System.currentTimeMillis()
         try {
             // 1) the router
-            val firstRun = (File(engine.dataDir, "netDb").list()?.size ?: 0) < 10
             engine.prepare()
+            val firstRun = engine.knownRouters < 25
+            if (firstRun) Status.detail("دریافت فهرست اولیه‌ی روترها…")
             val res = engine.start()
             if (res != "ok") return fail("موتور روشن نشد: ${res.take(120)}", null)
             engineStarted = true
@@ -246,7 +247,7 @@ class HezartooVpnService : VpnService() {
         try { tun?.close() } catch (_: Throwable) {}
         tun = null
         bridge?.let {
-            Status.log("session: opened=${it.opened.get()} failed=${it.failed.get()} up=${it.bytesUp.get() / 1024}KB down=${it.bytesDown.get() / 1024}KB failed-by-port=[${it.failureSummary()}]")
+            Status.log("session: opened=${it.opened.get()} failed=${it.failed.get()} skipped=${it.skipped.get()} up=${it.bytesUp.get() / 1024}KB down=${it.bytesDown.get() / 1024}KB failed-by-port=[${it.failureSummary()}]")
             it.stop()
         }
         bridge = null

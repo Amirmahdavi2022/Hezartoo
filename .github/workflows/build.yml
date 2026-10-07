@@ -93,6 +93,26 @@ jobs:
           cat /tmp/i2pd/jni.txt
           } 2>&1 | tee fetch.log
 
+      - name: Bundle a fresh reseed file
+        run: |
+          # A phone's first start needs a few dozen router addresses. Normally i2pd downloads
+          # them from reseed servers, which can be slow or blocked from Iran, so we ship a
+          # signed bundle taken at build time (i2pd checks its signature on the phone).
+          set -o pipefail
+          {
+          out=app/src/main/assets/i2pd/seed.su3
+          for u in https://reseed2.i2p.net/ https://reseed.diva.exchange/ https://reseed-fr.i2pd.xyz/ \
+                   https://reseed.i2pgit.org/ https://reseed.stormycloud.org/ https://reseed-pl.i2pd.xyz/ \
+                   https://i2p.novg.net/ https://www2.mk16.de/; do
+            if curl -fsSL -m 60 -A "Wget/1.11.4" "${u}i2pseeds.su3" -o "$out" \
+               && [ "$(stat -c %s "$out")" -gt 20000 ] && head -c 6 "$out" | grep -q "I2Psu3"; then
+              echo "reseed bundle from $u: $(stat -c %s "$out") bytes"; break
+            fi
+            rm -f "$out"; echo "no bundle from $u"
+          done
+          [ -f "$out" ]
+          } 2>&1 | tee -a fetch.log
+
       - name: Build hev-socks5-tunnel (arm64)
         run: |
           git clone --quiet https://github.com/heiher/hev-socks5-tunnel.git hev
