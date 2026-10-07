@@ -77,6 +77,7 @@ jobs:
             "-DOPENSSL_MIRROR=https://github.com/openssl/openssl/releases/download/openssl-3.0.7;https://www.openssl.org/source/old/3.0" \
             "-DZLIB_MIRROR=https://zlib.net/fossils;https://github.com/madler/zlib/releases/download/v1.2.13" \
             "-DCURL_MIRROR=https://curl.se/download;https://curl.se/download/archeology" \
+            -DCMAKE_POLICY_DEFAULT_CMP0135=OLD \
             2>&1 | tee ../build.log
           ls -la build-android/out/*/
 
