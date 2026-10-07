@@ -32,11 +32,13 @@ jobs:
         run: |
           # usually preinstalled on the runner; apt only if something is missing (it hung once)
           missing=""
-          for t in autoconf automake libtoolize pkg-config autopoint; do command -v $t >/dev/null || missing="$missing $t"; done
+          # unbound regenerates its config parser; byacc output breaks it, it needs real bison
+          for t in autoconf automake libtoolize pkg-config autopoint bison flex; do command -v $t >/dev/null || missing="$missing $t"; done
           echo "missing:${missing:- none}"
           if [ -n "$missing" ]; then
-            timeout 300 sudo apt-get install -y -qq --no-install-recommends autoconf automake libtool pkg-config autopoint gettext > /dev/null
+            timeout 300 sudo apt-get install -y -qq --no-install-recommends autoconf automake libtool pkg-config autopoint gettext bison flex > /dev/null
           fi
+          bison --version | head -1
           cmake --version | head -1
 
       - name: Get Lokinet ${{ env.LOKINET_TAG }}
