@@ -1,376 +1,360 @@
 package xyz.amjmc.hezartoo
 
+import android.Manifest
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.net.VpnService
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputType
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowInsets
 import android.view.animation.PathInterpolator
-import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import network.loki.lokinet.LokinetDaemon
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.File
-import java.io.RandomAccessFile
-import java.net.HttpURLConnection
-import java.net.URL
-import java.util.concurrent.Executors
+import java.util.Locale
 
-/**
- * Probe screen: start the Lokinet engine, show what it sees, and test whether
- * traffic really leaves through an exit. Deliberately shows the raw log.
- */
 class MainActivity : Activity() {
 
     private val main = Handler(Looper.getMainLooper())
-    private val bg = Executors.newSingleThreadExecutor()
     private val easeOut = PathInterpolator(0.23f, 1f, 0.32f, 1f)
 
     private lateinit var regular: Typeface
     private lateinit var bold: Typeface
 
-    private lateinit var button: TextView
-    private lateinit var stateText: TextView
-    private lateinit var nodesVal: TextView
-    private lateinit var peersVal: TextView
-    private lateinit var pathsVal: TextView
-    private lateinit var exitField: EditText
-    private lateinit var testText: TextView
-    private lateinit var logText: TextView
+    private lateinit var power: PowerButton
+    private lateinit var phaseText: TextView
+    private lateinit var detailText: TextView
+    private lateinit var timerChip: TextView
+    private lateinit var crashCard: LinearLayout
+    private var lastPhase: Status.Phase? = null
 
-    private var polling = false
-    private val poll = object : Runnable {
+    // the tunnel runs in another process, so the screen polls its state file
+    private val tick = object : Runnable {
         override fun run() {
-            refresh()
-            main.postDelayed(this, 1500)
+            if (Status.refresh()) render() else renderTimer()
+            main.postDelayed(this, 500)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Status.init(this)
         regular = resources.getFont(R.font.vazir_regular)
         bold = resources.getFont(R.font.vazir_bold)
-        window.setBackgroundDrawable(ColorDrawable(BG))
-        window.statusBarColor = BG
-        window.navigationBarColor = BG
-        setContentView(build())
-    }
+        window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(BG))
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+        // draw behind the bars on every version, not only Android 15
+        if (Build.VERSION.SDK_INT >= 30) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        }
 
-    override fun onResume() {
-        super.onResume()
-        polling = true
-        main.post(poll)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        polling = false
-        main.removeCallbacks(poll)
-    }
-
-    // ---------- UI ----------
-
-    private fun build(): View {
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             layoutDirection = View.LAYOUT_DIRECTION_RTL
-            setPadding(dp(20), dp(28), dp(20), dp(28))
+            background = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.parseColor("#101A1E"), BG, BG)
+            )
+        }
+        // Android 15 draws apps edge to edge: keep content clear of the system bars.
+        root.setOnApplyWindowInsetsListener { v, insets ->
+            val bars = if (Build.VERSION.SDK_INT >= 30) insets.getInsets(WindowInsets.Type.systemBars())
+                       else null
+            val top = bars?.top ?: insets.systemWindowInsetTop
+            val bottom = bars?.bottom ?: insets.systemWindowInsetBottom
+            v.setPadding(dp(22), top + dp(18), dp(22), bottom + dp(14))
+            insets
         }
 
-        root.addView(LinearLayout(this).apply {
+        // ---- header
+        val header = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            addView(ImageView(this@MainActivity).apply {
-                setImageResource(R.drawable.brand_mark)
-                clipToOutline = true
-                background = round(CARD, dp(14).toFloat())
-            }, LinearLayout.LayoutParams(dp(48), dp(48)))
-            addView(LinearLayout(this@MainActivity).apply {
-                orientation = LinearLayout.VERTICAL
-                setPadding(dp(14), 0, dp(14), 0)
-                addView(text("هزارتو", 22f, TEXT, bold))
-                addView(text("نسخه آزمایشی · شبکه Lokinet", 13f, MUTED, regular))
-            })
-        })
-
-        button = text("اتصال", 18f, BG, bold).apply {
-            gravity = Gravity.CENTER
-            background = gradient()
-            setOnClickListener { toggle() }
-            pressable(this)
         }
-        root.addView(button, lp(MATCH_PARENT, dp(58), top = 26))
-
-        stateText = text("", 14f, MUTED, regular).apply { gravity = Gravity.CENTER }
-        root.addView(stateText, lp(MATCH_PARENT, WRAP_CONTENT, top = 12))
-
-        val stats = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        nodesVal = stat(stats, "نود شناخته‌شده")
-        peersVal = stat(stats, "اتصال مستقیم")
-        pathsVal = stat(stats, "مسیر آماده")
-        root.addView(stats, lp(MATCH_PARENT, WRAP_CONTENT, top = 18))
-
-        root.addView(text("نود خروجی", 13f, MUTED, regular), lp(MATCH_PARENT, WRAP_CONTENT, top = 18))
-        exitField = EditText(this).apply {
-            setText(prefs().getString("exit", "exit.loki"))
-            setTextColor(TEXT)
-            textSize = 15f
-            typeface = Typeface.MONOSPACE
-            textDirection = View.TEXT_DIRECTION_LTR
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-            background = round(CARD, dp(12).toFloat())
-            setPadding(dp(14), dp(12), dp(14), dp(12))
-            isSingleLine = true
+        val logo = ImageView(this).apply {
+            setImageResource(R.drawable.brand_mark)
+            scaleType = ImageView.ScaleType.CENTER_CROP
         }
-        root.addView(exitField, lp(MATCH_PARENT, WRAP_CONTENT, top = 6))
-
-        val test = text("تست خروجی (IP و کشور)", 15f, TEXT, bold).apply {
-            gravity = Gravity.CENTER
-            background = round(CARD, dp(12).toFloat())
-            setOnClickListener { runTest() }
-            pressable(this)
-        }
-        root.addView(test, lp(MATCH_PARENT, dp(50), top = 14))
-        testText = text("", 13f, MUTED, regular).apply { textDirection = View.TEXT_DIRECTION_LTR }
-        root.addView(testText, lp(MATCH_PARENT, WRAP_CONTENT, top = 8))
-
-        val logHead = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            addView(text("لاگ موتور", 13f, MUTED, regular), LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
-            addView(text("کپی", 13f, ACCENT, bold).apply {
-                setPadding(dp(10), dp(6), dp(10), dp(6))
-                setOnClickListener { copyLog() }
-            })
-        }
-        root.addView(logHead, lp(MATCH_PARENT, WRAP_CONTENT, top = 18))
-        logText = TextView(this).apply {
-            setTextColor(0xFF9AA7B4.toInt())
-            textSize = 10.5f
-            typeface = Typeface.MONOSPACE
-            textDirection = View.TEXT_DIRECTION_LTR
-            textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-            setTextIsSelectable(true)
-            background = round(CARD, dp(12).toFloat())
-            setPadding(dp(12), dp(10), dp(12), dp(10))
-        }
-        root.addView(logText, lp(MATCH_PARENT, WRAP_CONTENT, top = 6))
-
-        root.addView(text("کانال: @parsv2r", 12f, MUTED, regular).apply {
-            gravity = Gravity.CENTER
-            setOnClickListener {
-                runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/parsv2r"))) }
-            }
-        }, lp(MATCH_PARENT, WRAP_CONTENT, top = 18))
-
-        return ScrollView(this).apply {
-            isFillViewport = true
-            addView(root)
-        }
-    }
-
-    private fun stat(row: LinearLayout, label: String): TextView {
-        val v = text("–", 20f, TEXT, bold).apply { gravity = Gravity.CENTER }
-        val box = LinearLayout(this).apply {
+        header.addView(FrameLayout(this).apply {
+            background = rounded(Color.parseColor("#17202A"), dp(14).toFloat())
+            clipToOutline = true
+            addView(logo, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
+        }, LinearLayout.LayoutParams(dp(44), dp(44)))
+        val titles = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-            background = round(CARD, dp(12).toFloat())
-            setPadding(dp(6), dp(12), dp(6), dp(12))
-            addView(v)
-            addView(text(label, 11f, MUTED, regular).apply { gravity = Gravity.CENTER })
+            setPadding(dp(12), 0, dp(12), 0)
+            addView(text("هزارتو", 22f, Color.WHITE, bold = true))
+            addView(text("بدون سرور، از راه شبکه‌ی I2P", 13f, MUTED))
         }
-        val p = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
-        p.marginStart = dp(4); p.marginEnd = dp(4)
-        row.addView(box, p)
-        return v
+        header.addView(titles, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+        root.addView(header, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+
+        // ---- crash card (only after an unexpected exit)
+        crashCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = rounded(Color.parseColor("#2A1A1B"), dp(18).toFloat(), Color.parseColor("#4A2A2B"))
+            setPadding(dp(16), dp(14), dp(16), dp(14))
+            visibility = View.GONE
+            addView(text("دفعه‌ی قبل برنامه یهو بسته شد", 14f, Color.parseColor("#F6D2CD"), bold = true))
+            addView(text("گزارشش رو کپی کن و بفرست تا درستش کنم.", 13f, Color.parseColor("#D9AFA9")).apply {
+                setPadding(0, dp(2), 0, 0)
+            })
+            addView(pill("کپی گزارش خرابی", Color.parseColor("#3A2425")) { copyCrash() },
+                LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { topMargin = dp(12) })
+        }
+        root.addView(crashCard, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = dp(18) })
+
+        // ---- centre
+        val centre = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
+        }
+        power = PowerButton(this).apply { setOnClickListener { toggle() } }
+        centre.addView(power, LinearLayout.LayoutParams(dp(280), dp(280)))
+        phaseText = text("", 24f, Color.WHITE, bold = true).apply { gravity = Gravity.CENTER }
+        detailText = text("", 14f, MUTED).apply {
+            gravity = Gravity.CENTER; setPadding(dp(16), dp(4), dp(16), 0)
+        }
+        timerChip = text("", 14f, Color.parseColor("#BFF3DA")).apply {
+            gravity = Gravity.CENTER
+            background = rounded(Color.parseColor("#12261E"), dp(16).toFloat(), Color.parseColor("#1E4434"))
+            setPadding(dp(14), dp(5), dp(14), dp(5))
+            letterSpacing = 0.06f
+            visibility = View.INVISIBLE
+        }
+        centre.addView(phaseText, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = -dp(6) })
+        centre.addView(detailText, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        centre.addView(timerChip, LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { topMargin = dp(14) })
+        root.addView(FrameLayout(this).apply {
+            addView(centre, FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, Gravity.CENTER))
+        }, LinearLayout.LayoutParams(MATCH_PARENT, 0, 1f))
+
+        // ---- bottom
+        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        row.addView(pill("کپی گزارش") { copyLog() }, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+        row.addView(View(this), LinearLayout.LayoutParams(dp(10), 1))
+        row.addView(pill("کانال تلگرام") {
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(CHANNEL))) } catch (_: Throwable) {}
+        }, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+        root.addView(row, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        val version = text("نسخه ${BuildConfig.VERSION_NAME}", 11f, Color.parseColor("#4E5864")).apply {
+            gravity = Gravity.CENTER; setPadding(0, dp(10), 0, 0)
+        }
+        root.addView(version, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+
+        setContentView(root)
+        enter(listOf(header, centre, row, version))
+
+        if (Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 2)
+        }
     }
 
-    // ---------- actions ----------
+    override fun onStart() {
+        super.onStart()
+        Status.refresh()
+        render()
+        crashCard.visibility = if (crashFile().exists()) View.VISIBLE else View.GONE
+        main.post(tick)
+    }
+
+    override fun onStop() {
+        main.removeCallbacks(tick)
+        super.onStop()
+    }
+
+    // ------------------------------------------------------------------ actions
 
     private fun toggle() {
-        val s = LokinetDaemon.state
-        if (s == "running" || s == "starting" || s == "configuring") {
-            startService(Intent(this, LokinetDaemon::class.java).setAction(LokinetDaemon.ACTION_STOP))
-            return
+        when (Status.phase) {
+            Status.Phase.OFF, Status.Phase.ERROR -> {
+                val ask = VpnService.prepare(this)
+                if (ask != null) startActivityForResult(ask, REQ_VPN) else HezartooVpnService.start(this)
+            }
+            Status.Phase.STOPPING -> {}
+            else -> HezartooVpnService.stop(this)
         }
-        val ask = VpnService.prepare(this)
-        if (ask != null) startActivityForResult(ask, 1) else start()
     }
 
     @Deprecated("Activity API")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) start()
-    }
-
-    private fun start() {
-        val exit = exitField.text.toString().trim().ifEmpty { "exit.loki" }
-        prefs().edit().putString("exit", exit).apply()
-        testText.text = ""
-        startForegroundService(Intent(this, LokinetDaemon::class.java).putExtra(LokinetDaemon.EXTRA_EXIT, exit))
-    }
-
-    private fun runTest() {
-        testText.setTextColor(MUTED)
-        testText.text = "در حال تست…"
-        bg.execute {
-            val t0 = System.currentTimeMillis()
-            val out = try {
-                val c = URL("https://ipwho.is/").openConnection() as HttpURLConnection
-                c.connectTimeout = 20000; c.readTimeout = 20000
-                c.setRequestProperty("User-Agent", "Hezartoo")
-                val body = c.inputStream.bufferedReader().readText()
-                val j = JSONObject(body)
-                val ms = System.currentTimeMillis() - t0
-                "OK ${ms}ms\nIP: ${j.optString("ip")}\n${j.optString("country")} · ${j.optString("city")}\n" +
-                    j.optJSONObject("connection")?.optString("org").orEmpty()
-            } catch (e: Exception) {
-                "FAILED after ${System.currentTimeMillis() - t0}ms: $e"
-            }
-            main.post {
-                testText.setTextColor(if (out.startsWith("OK")) ACCENT else ERROR)
-                testText.text = out
-            }
+        if (requestCode == REQ_VPN) {
+            if (resultCode == RESULT_OK) HezartooVpnService.start(this)
+            else toast("بدون اجازه‌ی وی‌پی‌ان نمی‌تونم وصل کنم")
         }
     }
 
     private fun copyLog() {
+        val crash = crashFile().takeIf { it.exists() }?.readText()?.let { "\n\n=== last crash ===\n$it" } ?: ""
+        val engineLog = try {
+            File(filesDir, "i2pd/i2pd.log").takeIf { it.exists() }?.readLines()?.takeLast(80)?.joinToString("\n")
+        } catch (_: Throwable) { null }
+        val tail = if (engineLog.isNullOrBlank()) "" else "\n\n=== i2pd ===\n$engineLog"
+        copy("hezartoo-log", "Hezartoo ${BuildConfig.VERSION_NAME}\n" + Status.fullReport() + crash + tail)
+        toast("گزارش کپی شد")
+    }
+
+    private fun copyCrash() {
+        val f = crashFile()
+        copy("hezartoo-crash", (f.takeIf { it.exists() }?.readText() ?: "") + "\n\n=== log ===\n" + Status.fullReport())
+        f.delete()
+        crashCard.animate().alpha(0f).translationY(-dp(6).toFloat()).setDuration(180).setInterpolator(easeOut)
+            .withEndAction { crashCard.visibility = View.GONE; crashCard.alpha = 1f; crashCard.translationY = 0f }
+            .start()
+        toast("گزارش خرابی کپی شد")
+    }
+
+    // ------------------------------------------------------------------- render
+
+    private fun render() {
+        val p = Status.phase
+        power.setPhase(p)
+        val title = when (p) {
+            Status.Phase.OFF -> "خاموش"
+            Status.Phase.STARTING -> "در حال روشن شدن…"
+            Status.Phase.SEARCHING -> "در حال اتصال…"
+            Status.Phase.ON -> "وصلی"
+            Status.Phase.STOPPING -> "در حال قطع…"
+            Status.Phase.ERROR -> "وصل نشد"
+        }
+        val detail = when (p) {
+            Status.Phase.OFF -> if (Status.detail.isBlank() || Status.detail == "قطع شد") "برای وصل شدن دکمه رو بزن" else Status.detail
+            Status.Phase.ON -> "همه‌ی اپ‌ها از هزارتو رد میشن"
+            else -> Status.detail
+        }
+        phaseText.setTextColor(
+            when (p) {
+                Status.Phase.ON -> Color.parseColor("#E9FFF5")
+                Status.Phase.ERROR -> Color.parseColor("#FFD9D5")
+                else -> Color.WHITE
+            }
+        )
+        if (p != lastPhase && lastPhase != null) {
+            swapText(phaseText, title)
+            swapText(detailText, detail)
+        } else {
+            phaseText.text = title
+            detailText.text = detail
+        }
+        lastPhase = p
+        renderTimer()
+    }
+
+    /** Short fade + lift so the status line changes don't jump. */
+    private fun swapText(v: TextView, s: String) {
+        if (v.text == s) return
+        v.animate().cancel()
+        v.alpha = 0f
+        v.translationY = dp(4).toFloat()
+        v.text = s
+        v.animate().alpha(1f).translationY(0f).setDuration(200).setInterpolator(easeOut).start()
+    }
+
+    private fun renderTimer() {
+        val t = Status.startedAt
+        val on = Status.phase == Status.Phase.ON && t > 0
+        if (on) {
+            val s = (System.currentTimeMillis() - t) / 1000
+            timerChip.text = String.format(Locale.US, "%02d:%02d:%02d", s / 3600, (s / 60) % 60, s % 60)
+        }
+        val want = if (on) View.VISIBLE else View.INVISIBLE
+        if (timerChip.visibility != want) {
+            if (on) {
+                timerChip.alpha = 0f; timerChip.scaleX = 0.95f; timerChip.scaleY = 0.95f
+                timerChip.visibility = View.VISIBLE
+                timerChip.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(220).setInterpolator(easeOut).start()
+            } else {
+                timerChip.animate().alpha(0f).setDuration(150).setInterpolator(easeOut)
+                    .withEndAction { timerChip.visibility = View.INVISIBLE }.start()
+            }
+        }
+    }
+
+    /** Staggered fade-up on first open. */
+    private fun enter(views: List<View>) {
+        views.forEachIndexed { i, v ->
+            v.alpha = 0f
+            v.translationY = dp(10).toFloat()
+            v.animate().alpha(1f).translationY(0f)
+                .setStartDelay(60L * i).setDuration(320).setInterpolator(easeOut).start()
+        }
+    }
+
+    // ------------------------------------------------------------------ helpers
+
+    private fun crashFile() = File(filesDir, HezartooApp.CRASH_FILE)
+
+    private fun copy(label: String, s: String) {
         val cm = getSystemService(ClipboardManager::class.java)
-        val text = "state=${LokinetDaemon.state} err=${LokinetDaemon.lastError}\n" +
-            "${nodesVal.text}/${peersVal.text}/${pathsVal.text}\n${testText.text}\n\n" + tail(400)
-        cm.setPrimaryClip(ClipData.newPlainText("hezartoo log", text))
-        Toast.makeText(this, "کپی شد", Toast.LENGTH_SHORT).show()
+        cm.setPrimaryClip(ClipData.newPlainText(label, s))
     }
 
-    // ---------- status ----------
+    private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
-    private fun refresh() {
-        val s = LokinetDaemon.state
-        val running = s == "running"
-        val busy = running || s == "starting" || s == "configuring"
-        button.text = if (busy) "قطع" else "اتصال"
-        stateText.setTextColor(if (s == "failed") ERROR else MUTED)
-        val secs = if (busy) (System.currentTimeMillis() - LokinetDaemon.startedAt) / 1000 else 0
-        stateText.text = when (s) {
-            "idle" -> "خاموش"
-            "starting", "configuring" -> "در حال راه‌اندازی موتور… ${secs}s"
-            "running" -> "موتور روشن است · ${secs}s"
-            "stopping" -> "در حال خاموش شدن…"
-            "failed" -> "خطا: ${LokinetDaemon.lastError}"
-            else -> s
-        }
-        val d = LokinetDaemon.instance
-        bg.execute {
-            val stats = if (running && d != null) runCatching { parse(d.DumpStatus()) }.getOrNull() else null
-            val log = tail(60)
-            main.post {
-                nodesVal.text = stats?.get(0)?.toString() ?: "–"
-                peersVal.text = stats?.get(1)?.toString() ?: "–"
-                pathsVal.text = stats?.get(2)?.toString() ?: "–"
-                if (logText.text.toString() != log) logText.text = log.ifEmpty { "(هنوز لاگی نیست)" }
-            }
-        }
+    private fun text(s: String, size: Float, color: Int, bold: Boolean = false) = TextView(this).apply {
+        text = s; textSize = size; setTextColor(color)
+        typeface = if (bold) this@MainActivity.bold else regular
+        includeFontPadding = false
+        setLineSpacing(0f, 1.15f)
     }
 
-    /** [nodes known, established sessions, ready paths] */
-    private fun parse(json: String): IntArray {
-        if (json.isBlank()) return intArrayOf(0, 0, 0)
-        val o = JSONObject(json)
-        var sessions = 0
-        o.optJSONArray("links")?.let { types ->
-            for (i in 0 until types.length()) {
-                val links = types.optJSONArray(i) ?: continue
-                for (k in 0 until links.length()) {
-                    val l = links.optJSONObject(k) ?: continue
-                    sessions += l.optJSONObject("sessions")?.optJSONArray("established")?.length() ?: 0
-                }
-            }
-        }
-        return intArrayOf(o.optInt("numNodesKnown"), sessions, countReady(o))
-    }
-
-    private fun countReady(v: Any?): Int = when (v) {
-        is JSONObject -> {
-            var n = if (v.optBoolean("ready", false) && v.has("hops")) 1 else 0
-            for (k in v.keys()) n += countReady(v.opt(k))
-            n
-        }
-        is JSONArray -> (0 until v.length()).sumOf { countReady(v.opt(it)) }
-        else -> 0
-    }
-
-    private fun tail(lines: Int): String {
-        val f = LokinetDaemon.logFile(filesDir)
-        if (!f.exists()) return ""
-        return runCatching {
-            RandomAccessFile(f, "r").use { r ->
-                val len = r.length()
-                val from = maxOf(0L, len - 24_000L)
-                r.seek(from)
-                val buf = ByteArray((len - from).toInt())
-                r.readFully(buf)
-                String(buf).lines().takeLast(lines).joinToString("\n")
-            }
-        }.getOrDefault("")
-    }
-
-    // ---------- helpers ----------
-
-    private fun prefs() = getSharedPreferences("p", MODE_PRIVATE)
-
-    private fun text(s: String, size: Float, color: Int, tf: Typeface) = TextView(this).apply {
-        text = s; textSize = size; setTextColor(color); typeface = tf
-    }
-
-    private fun round(color: Int, r: Float) = GradientDrawable().apply { setColor(color); cornerRadius = r }
-
-    private fun gradient() = GradientDrawable(
-        GradientDrawable.Orientation.TL_BR, intArrayOf(0xFF5CF2D6.toInt(), 0xFF2E8BFF.toInt())
-    ).apply { cornerRadius = dp(16).toFloat() }
-
-    /** subtle press feedback: scale to 0.97 on press, ease-out back */
-    private fun pressable(v: View) {
-        v.setOnTouchListener { view, e ->
+    private fun pill(label: String, bg: Int = Color.parseColor("#161C23"), onClick: () -> Unit) = TextView(this).apply {
+        text = label
+        textSize = 14f
+        typeface = regular
+        includeFontPadding = false
+        setTextColor(Color.parseColor("#D7DEE6"))
+        gravity = Gravity.CENTER
+        background = rounded(bg, dp(16).toFloat(), Color.parseColor("#232B35"))
+        setPadding(dp(16), dp(13), dp(16), dp(13))
+        isClickable = true
+        setOnClickListener { onClick() }
+        setOnTouchListener { v, e ->
             when (e.actionMasked) {
-                MotionEvent.ACTION_DOWN -> view.animate().scaleX(0.97f).scaleY(0.97f)
-                    .setDuration(120).setInterpolator(easeOut).start()
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> view.animate().scaleX(1f).scaleY(1f)
-                    .setDuration(160).setInterpolator(easeOut).start()
+                MotionEvent.ACTION_DOWN ->
+                    v.animate().scaleX(0.97f).scaleY(0.97f).setDuration(140).setInterpolator(easeOut).start()
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL ->
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(200).setInterpolator(easeOut).start()
             }
             false
         }
     }
 
-    private fun lp(w: Int, h: Int, top: Int = 0) =
-        LinearLayout.LayoutParams(w, h).apply { topMargin = dp(top) }
+    private fun rounded(color: Int, r: Float, stroke: Int? = null) = GradientDrawable().apply {
+        setColor(color); cornerRadius = r
+        if (stroke != null) setStroke(dp(1), stroke)
+    }
 
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
     companion object {
-        val BG = 0xFF05070A.toInt()
-        val CARD = 0xFF10151C.toInt()
-        val TEXT = 0xFFE8EEF4.toInt()
-        val MUTED = 0xFF7C8896.toInt()
-        val ACCENT = 0xFF5CF2D6.toInt()
-        val ERROR = 0xFFFF6B6B.toInt()
+        private const val REQ_VPN = 1
+        private val BG = Color.parseColor("#0C1015")
+        private val MUTED = Color.parseColor("#8A949F")
+        private const val CHANNEL = "https://t.me/parsv2r"
     }
 }

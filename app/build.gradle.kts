@@ -16,6 +16,7 @@ android {
         targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
+        // the i2pd and hev libraries are packed for arm64 only (almost every phone of the last years)
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 
@@ -37,6 +38,8 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    buildFeatures { buildConfig = true }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

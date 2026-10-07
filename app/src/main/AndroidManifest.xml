@@ -3,15 +3,18 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:name=".HezartooApp"
         android:label="Hezartoo"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:extractNativeLibs="true"
         android:allowBackup="false"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
@@ -20,7 +23,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +31,10 @@
             </intent-filter>
         </activity>
 
+        <!-- own process: i2pd can't restart cleanly in-process, so each connect gets a fresh one -->
         <service
-            android:name="network.loki.lokinet.LokinetDaemon"
+            android:name=".HezartooVpnService"
+            android:process=":tunnel"
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_VPN_SERVICE">

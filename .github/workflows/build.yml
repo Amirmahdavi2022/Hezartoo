@@ -4,8 +4,6 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - "engine/**"
-      - ".github/workflows/engine.yml"
       - "README.md"
       - "brand/**"
   workflow_dispatch:
@@ -19,8 +17,12 @@ permissions:
   contents: write
 
 env:
-  ENGINE_TAG: engine-0.9.15-jmc1
-  VERSION_NAME: 0.1.${{ github.run_number }}
+  # i2pd router, prebuilt by PurpleI2P (BSD-3-Clause). Same version as the app tested by hand.
+  I2PD_VERSION: "2.61.0"
+  I2PD_FDROID_CODE: "2610000"
+  # hev-socks5-tunnel 2.18.0 (MIT)
+  HEV_COMMIT: d9dca26c7ad0e494492244f0309e80ee583e739e
+  VERSION_NAME: 0.2.${{ github.run_number }}
 
 jobs:
   apk:
@@ -38,15 +40,71 @@ jobs:
         with:
           gradle-version: 8.14.3
 
-      - name: Get engine
+      - name: Get i2pd
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p app/src/main/jniLibs/arm64-v8a
-          gh release download "$ENGINE_TAG" --pattern 'liblokinet-android-arm64-v8a.so' \
-            --output app/src/main/jniLibs/arm64-v8a/liblokinet-android.so --clobber
-          # refuse to ship an engine without our patch inside
-          grep -a -c "ignored on android" app/src/main/jniLibs/arm64-v8a/liblokinet-android.so
+          set -o pipefail
+          {
+          set -e
+          mkdir -p /tmp/i2pd && cd /tmp/i2pd
+          # 1) the official GitHub release, 2) the F-Droid build of the same version
+          gh api "repos/PurpleI2P/i2pd-android/releases/tags/$I2PD_VERSION" \
+            --jq '.assets[] | select(.name | endswith(".apk")) | .name + " " + .browser_download_url' > list.txt || true
+          echo "release assets:"; cat list.txt || true
+          got=""
+          # try arm64 / universal builds first
+          for name in $(awk '{print $1}' list.txt | sort -r | grep -iE 'arm64|universal|android' ; awk '{print $1}' list.txt); do
+            url=$(awk -v n="$name" '$1==n {print $2}' list.txt | head -1)
+            curl -fsSL "$url" -o cand.apk || continue
+            if unzip -l cand.apk | grep -q "lib/arm64-v8a/libi2pd.so"; then got="$name"; mv cand.apk i2pd.apk; break; fi
+          done
+          if [ -z "$got" ]; then
+            echo "no usable GitHub asset, trying F-Droid"
+            curl -fsSL "https://f-droid.org/repo/org.purplei2p.i2pd_${I2PD_FDROID_CODE}.apk" -o i2pd.apk
+            unzip -l i2pd.apk | grep -q "lib/arm64-v8a/libi2pd.so"
+            got="f-droid ${I2PD_FDROID_CODE}"
+          fi
+          echo "using: $got"
+          sha256sum i2pd.apk
+
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p app/src/main/jniLibs/arm64-v8a app/src/main/assets/i2pd
+          unzip -p /tmp/i2pd/i2pd.apk lib/arm64-v8a/libi2pd.so > app/src/main/jniLibs/arm64-v8a/libi2pd.so
+          ls -l app/src/main/jniLibs/arm64-v8a/libi2pd.so
+          rm -rf /tmp/i2pd/x && mkdir /tmp/i2pd/x
+          unzip -q /tmp/i2pd/i2pd.apk 'assets/certificates/*' 'assets/addressbook/*' -d /tmp/i2pd/x || true
+          cp -r /tmp/i2pd/x/assets/certificates app/src/main/assets/i2pd/
+          [ -d /tmp/i2pd/x/assets/addressbook ] && cp -r /tmp/i2pd/x/assets/addressbook app/src/main/assets/i2pd/ || echo "no addressbook in apk"
+          n=$(find app/src/main/assets/i2pd/certificates/reseed -name '*.crt' | wc -l)
+          echo "reseed certificates: $n"
+          [ "$n" -gt 3 ]
+
+          NDK="${ANDROID_NDK_LATEST_HOME:-$ANDROID_NDK_HOME}"
+          BIN="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          echo "libi2pd.so needs:"
+          "$BIN/llvm-readelf" -d app/src/main/jniLibs/arm64-v8a/libi2pd.so | grep NEEDED
+          # we don't ship libc++_shared.so, so the library must not need it
+          if "$BIN/llvm-readelf" -d app/src/main/jniLibs/arm64-v8a/libi2pd.so | grep -q 'libc++_shared'; then
+            echo "libi2pd.so needs libc++_shared.so, which we don't ship"; exit 1
+          fi
+          "$BIN/llvm-nm" -D --defined-only app/src/main/jniLibs/arm64-v8a/libi2pd.so \
+            | grep -o 'Java_org_purplei2p_i2pd_I2PD_1JNI_[A-Za-z]*' | sort -u > /tmp/i2pd/jni.txt
+          cat /tmp/i2pd/jni.txt
+          } 2>&1 | tee fetch.log
+
+      - name: Build hev-socks5-tunnel (arm64)
+        run: |
+          git clone --quiet https://github.com/heiher/hev-socks5-tunnel.git hev
+          cd hev
+          git checkout --quiet "$HEV_COMMIT"
+          git submodule update --init --recursive --depth 1
+          NDK="${ANDROID_NDK_LATEST_HOME:-$ANDROID_NDK_HOME}"
+          "$NDK/ndk-build" NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk \
+            NDK_APPLICATION_MK=./Application.mk APP_ABI=arm64-v8a -j"$(nproc)"
+          mkdir -p ../app/src/main/jniLibs/arm64-v8a
+          cp libs/arm64-v8a/libhev-socks5-tunnel.so ../app/src/main/jniLibs/arm64-v8a/
+          file ../app/src/main/jniLibs/arm64-v8a/libhev-socks5-tunnel.so
 
       - name: Keystore
         id: ks
@@ -72,52 +130,59 @@ jobs:
           gradle ":app:$task" -PappVersionCode=${{ github.run_number }} -PappVersionName="$VERSION_NAME" \
             --stacktrace 2>&1 | tee build.log
 
-      - name: Check JNI names match the engine
+      - name: Check native methods exist in the libraries
         run: |
           set -e
-          so=app/src/main/jniLibs/arm64-v8a/liblokinet-android.so
-          NM="$(ls -d $ANDROID_NDK_LATEST_HOME 2>/dev/null || echo $ANDROID_NDK_HOME)/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
-          "$NM" -D --defined-only "$so" | grep -o 'Java_network_loki_lokinet_[A-Za-z]*_[A-Za-z]*' | sort -u > /tmp/c.txt
-          cat /tmp/c.txt
-          for cls in LokinetDaemon LokinetConfig; do
-            f=$(find app/build/intermediates -path "*network/loki/lokinet/$cls.class" | head -1)
-            javap -p "$f" | grep ' native ' | sed -E 's/.* ([A-Za-z]+)\(.*/\1/' | while read -r m; do
-              grep -qx "Java_network_loki_lokinet_${cls}_$m" /tmp/c.txt || { echo "MISSING in engine: $cls.$m"; exit 1; }
-            done
+          # i2pd: every native we declare must be exported by libi2pd.so
+          cls=$(find app/build/intermediates -path '*org/purplei2p/i2pd/I2PD_JNI.class' | head -1)
+          javap -p "$cls" | grep ' native ' | sed -E 's/.* ([A-Za-z]+)\(.*/\1/' | while read -r m; do
+            grep -qx "Java_org_purplei2p_i2pd_I2PD_1JNI_$m" /tmp/i2pd/jni.txt || { echo "MISSING in libi2pd.so: $m"; exit 1; }
+            echo "ok i2pd: $m"
           done
-          echo "all native methods present"
+          # hev: JNI_OnLoad fails the whole library if one declared method doesn't match
+          cls=$(find app/build/intermediates -path '*hev/htproxy/TProxyService.class' | head -1)
+          javap -s -p "$cls" > /tmp/javap.txt
+          grep -oE '\{ *"TProxy[A-Za-z]+", *"[^"]+"' hev/src/hev-jni.c | sed -E 's/\{ *"([^"]+)", *"([^"]+)"/\1 \2/' > /tmp/cnatives.txt
+          [ -s /tmp/cnatives.txt ]
+          while read -r name sig; do
+            awk -v n="$name" -v s="$sig" '
+              index($0, " " n "(") { found=1; next }
+              found && index($0, "descriptor:") { if ($2 == s) ok=1; found=0 }
+              END { exit ok ? 0 : 1 }' /tmp/javap.txt \
+              || { echo "MISMATCH: $name $sig not declared in TProxyService.java"; exit 1; }
+          done < /tmp/cnatives.txt
+          echo "all $(wc -l < /tmp/cnatives.txt) hev native methods match"
 
       - name: Check APK
         run: |
           set -e
           apk=$(ls app/build/outputs/apk/*/*.apk | head -1)
-          unzip -l "$apk" | grep "lib/arm64-v8a/liblokinet-android.so"
+          echo "APK: $apk"
+          unzip -l "$apk" | grep -E "lib/arm64-v8a/(libi2pd|libhev-socks5-tunnel)\.so"
+          unzip -l "$apk" | grep -c "assets/i2pd/certificates/reseed/"
           BT=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)
           "$BT/apksigner" verify --print-certs "$apk" | head -3
           mkdir -p out
           cp "$apk" "out/hezartoo-$VERSION_NAME-arm64.apk"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: hezartoo-apk
-          path: out/*.apk
-
       - name: Publish release
-        if: github.event_name == 'push' || inputs.release
+        if: steps.ks.outputs.file != '' && (github.event_name == 'push' || inputs.release)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="v$VERSION_NAME"
           gh release create "$tag" out/*.apk --target "$GITHUB_SHA" \
             --title "Hezartoo $VERSION_NAME" \
-            --notes "Probe build for arm64 phones. Turn every other VPN off, connect, wait 2-3 minutes, then tap the exit test." \
+            --notes "Test build for arm64 phones, on I2P + the StormyCloud outproxy. Turn every other VPN off before connecting; the first connect can take up to 10 minutes." \
             --prerelease
 
       - name: Save failure log
         if: failure()
         run: |
-          [ -f build.log ] || echo "failed before gradle" > build.log
-          tail -n 250 build.log > /tmp/fail.log
+          : > /tmp/fail.log
+          [ -f fetch.log ] && { echo "=== fetch ==="; tail -n 120 fetch.log; } >> /tmp/fail.log
+          [ -f build.log ] && { echo "=== gradle ==="; tail -n 250 build.log; } >> /tmp/fail.log
+          [ -s /tmp/fail.log ] || echo "failed outside the logged steps" > /tmp/fail.log
           git config user.name "AM.JMC"
           git config user.email "272643218+Amirmahdavi2022@users.noreply.github.com"
           git fetch -q origin ci-logs || true
