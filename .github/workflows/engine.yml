@@ -51,10 +51,10 @@ jobs:
 
       - name: NDK
         run: |
-          # NDK r25c (clang 14): the fmt version bundled with Lokinet 0.9.15
-          # doesn't compile with the newest clang (consteval errors in fmt/os.cc)
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;25.2.9519653" > /dev/null
-          NDK="$ANDROID_HOME/ndk/25.2.9519653"
+          # NDK r27c (clang 18, libc++ 18). r25 lacks <source_location>; r28+ (libc++ 19)
+          # drops std::char_traits<unsigned char>, and r30's clang trips fmt 10.1 consteval.
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;27.2.12479018" > /dev/null
+          NDK="$ANDROID_HOME/ndk/27.2.12479018"
           echo "NDK=$NDK" >> "$GITHUB_ENV"
           echo "using $NDK"; cat "$NDK/source.properties" | grep Revision
           # the static-deps build still asks for old binutils names; NDK r23+ only ships llvm tools
@@ -75,6 +75,7 @@ jobs:
             "-DOPENSSL_MIRROR=https://github.com/openssl/openssl/releases/download/openssl-3.0.7;https://www.openssl.org/source/old/3.0" \
             "-DZLIB_MIRROR=https://zlib.net/fossils;https://github.com/madler/zlib/releases/download/v1.2.13" \
             "-DCURL_MIRROR=https://curl.se/download;https://curl.se/download/archeology" \
+            "-DCMAKE_CXX_FLAGS=-DFMT_CONSTEVAL=" \
             2>&1 | tee ../build.log
           ls -la build-android/out/*/
 
