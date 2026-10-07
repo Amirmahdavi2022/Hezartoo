@@ -1,0 +1,22 @@
+diff --git a/llarp/net/posix.cpp b/llarp/net/posix.cpp
+index 6bc764a..b3e6099 100644
+--- a/llarp/net/posix.cpp
++++ b/llarp/net/posix.cpp
+@@ -30,7 +30,17 @@ namespace llarp::net
+     {
+       ifaddrs* addrs{nullptr};
+       if (getifaddrs(&addrs))
++      {
++#ifdef ANDROID
++        // Android 11+ denies apps the netlink link dump this relies on.
++        // Treat it as "no interfaces visible" instead of killing the process;
++        // the app supplies its tun range itself.
++        LogWarn("getifaddrs(): ", strerror(errno), " (ignored on android)");
++        return;
++#else
+         throw std::runtime_error{fmt::format("getifaddrs(): {}", strerror(errno))};
++#endif
++      }
+ 
+       for (auto next = addrs; next; next = next->ifa_next)
+         visit(next);
