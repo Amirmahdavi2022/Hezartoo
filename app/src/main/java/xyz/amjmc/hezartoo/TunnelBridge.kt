@@ -225,7 +225,8 @@ class TunnelBridge(private val engineHost: String, private val enginePort: Int) 
             (a == 192 && b == 168) ||
             (a == 172 && b in 16..31) ||
             (a == 169 && b == 254) ||
-            (a == 198 && (b == 18 || b == 19)) // benchmark range: only ever fake-DNS answers
+            (a == 198 && (b == 18 || b == 19)) || // benchmark range: only ever fake-DNS answers
+            (a == 100 && b in 64..127) // our own fake-DNS range: an app kept an answer from an earlier session
     }
 
     private fun pipe(src: InputStream, dst: OutputStream, counter: AtomicLong, a: Socket, b: Socket) {
