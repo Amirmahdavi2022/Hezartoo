@@ -103,7 +103,7 @@ class MainActivity : Activity() {
         }
         header.addView(titles, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
         stateDot = View(this).apply { background = oval(MUTED) }
-        stateChip = text("", 13f, CREAM).apply { setPadding(dp(8), 0, 0, 0) }
+        stateChip = text("", 13f, CREAM).apply { setPaddingRelative(dp(8), 0, 0, 0) }
         header.addView(LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
