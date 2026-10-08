@@ -29,6 +29,14 @@ object Status {
     /** 0..1 progress while searching, or -1 when unknown. */
     @Volatile var progress: Float = -1f
         private set
+    /** Live i2pd numbers while connecting, -1 when unknown. */
+    @Volatile var routers: Int = -1
+        private set
+    @Volatile var tunnels: Int = -1
+        private set
+    /** When this connect attempt began (0 when idle). */
+    @Volatile var beganAt: Long = 0L
+        private set
 
     private var dir: File? = null
     private val fmt = SimpleDateFormat("HH:mm:ss", Locale.US)
@@ -49,6 +57,8 @@ object Status {
         progress = prog
         if (p == Phase.ON && !wasOn) startedAt = System.currentTimeMillis()
         if (p != Phase.ON) startedAt = 0L
+        if (p == Phase.STARTING) { beganAt = System.currentTimeMillis(); routers = -1; tunnels = -1 }
+        if (p == Phase.OFF || p == Phase.ERROR) { beganAt = 0L; routers = -1; tunnels = -1 }
         log("[$p] $d")
         write()
     }
@@ -57,6 +67,12 @@ object Status {
     fun detail(d: String, prog: Float = -1f) {
         detail = d
         progress = prog
+        write()
+    }
+
+    /** Live network numbers plus the line under the maze. */
+    fun net(r: Int, t: Int, d: String) {
+        routers = r; tunnels = t; detail = d
         write()
     }
 
@@ -73,6 +89,9 @@ object Status {
                     .put("detail", detail)
                     .put("startedAt", startedAt)
                     .put("progress", progress.toDouble())
+                    .put("routers", routers)
+                    .put("tunnels", tunnels)
+                    .put("beganAt", beganAt)
                     .put("beat", System.currentTimeMillis())
                     .toString()
             )
@@ -84,11 +103,12 @@ object Status {
 
     /** Re-reads the file. Returns true if anything visible changed. */
     fun refresh(): Boolean {
-        val before = listOf(phase, detail, startedAt, progress)
+        val before = listOf(phase, detail, startedAt, progress, routers, tunnels)
         try {
             val f = stateFile()
             if (!f.exists()) {
                 phase = Phase.OFF; detail = ""; startedAt = 0L; progress = -1f
+                routers = -1; tunnels = -1; beganAt = 0L
             } else {
                 val j = JSONObject(f.readText())
                 var p = Phase.valueOf(j.optString("phase", "OFF"))
@@ -103,14 +123,19 @@ object Status {
                 detail = d
                 startedAt = if (p == Phase.ON) j.optLong("startedAt", 0L) else 0L
                 progress = j.optDouble("progress", -1.0).toFloat()
+                val busy = p == Phase.STARTING || p == Phase.SEARCHING
+                routers = if (busy || p == Phase.ON) j.optInt("routers", -1) else -1
+                tunnels = if (busy || p == Phase.ON) j.optInt("tunnels", -1) else -1
+                beganAt = if (busy) j.optLong("beganAt", 0L) else 0L
             }
         } catch (_: Throwable) {}
-        return before != listOf(phase, detail, startedAt, progress)
+        return before != listOf(phase, detail, startedAt, progress, routers, tunnels)
     }
 
     /** Marks the state as off from the screen side (before the service has written anything). */
     fun reset() {
         phase = Phase.OFF; detail = ""; startedAt = 0L; progress = -1f
+        routers = -1; tunnels = -1; beganAt = 0L
         try { stateFile().delete() } catch (_: Throwable) {}
     }
 

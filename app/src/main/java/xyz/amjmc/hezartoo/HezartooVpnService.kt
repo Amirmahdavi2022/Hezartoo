@@ -17,7 +17,6 @@ import android.os.ParcelFileDescriptor
 import android.os.Process
 import hev.htproxy.TProxyService
 import java.io.File
-import java.util.Locale
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -118,16 +117,16 @@ class HezartooVpnService : VpnService() {
             while (exitIp.get() == null && since(t0) < SEARCH_LIMIT_MS) {
                 if (cancelled) { prober.interrupt(); return }
                 val s = engine.stats()
-                val clock = clock(since(t0))
                 if (s != null) {
-                    Status.detail("روترها: ${s.routers} · تونل‌ها: ${s.tunnels} · $clock\n$hint")
+                    val stage = if (s.tunnels > 0) "ساختن مسیر تا خروجی…" else "پیدا کردن گره‌های شبکه…"
+                    Status.net(s.routers, s.tunnels, "$stage\n$hint")
                     val key = "${s.routers / 100}/${s.tunnels}/${s.status}"
                     if (key != lastLogged) {
                         Status.log("net ${since(t0) / 1000}s routers=${s.routers} tunnels=${s.tunnels} success=${s.successRate}% status=${s.status}")
                         lastLogged = key
                     }
                 } else {
-                    Status.detail("روشن کردن موتور… $clock\n$hint")
+                    Status.detail("روشن کردن موتور…\n$hint")
                 }
                 Thread.sleep(3000)
             }
@@ -322,11 +321,6 @@ class HezartooVpnService : VpnService() {
     // ---------------------------------------------------------------- helpers
 
     private fun since(t: Long) = System.currentTimeMillis() - t
-
-    private fun clock(ms: Long): String {
-        val s = ms / 1000
-        return String.format(Locale.US, "%d:%02d", s / 60, s % 60)
-    }
 
     companion object {
         const val ACTION_START = "xyz.amjmc.hezartoo.START"
